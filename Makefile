@@ -6,7 +6,7 @@
 #    By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/08 14:19:31 by mbaron            #+#    #+#              #
-#    Updated: 2018/02/01 09:32:31 by mbaron           ###   ########.fr        #
+#    Updated: 2018/02/01 11:03:19 by mbaron           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,14 +20,15 @@ DIR_HEADERS		=		$(DIR)/includes
 
 DIR_LIB			=		$(DIR)/libft
 
-DIR_LIB_HEADERS	=		$(DIR_LIB)
+DIR_LIB_HEADERS	=		$(DIR_LIB)/includes
 
 LIB				=		-L$(DIR_LIB) -lft
 
 HEADERS			=		-I$(DIR_HEADERS)	\
 						-I$(DIR_LIB_HEADERS)
 
-SRCS			=		$(DIR_SRCS)/main.c
+SRCS			=		$(DIR_SRCS)/main.c	\
+						$(DIR_SRCS)/config.c
 
 OBJS			=		$(SRCS:.c=.o)
 

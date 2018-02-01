@@ -14,12 +14,13 @@
 ## the window will be larger due to the control zone
 
 ## w contains params for the world 
-## - zoom, x & y must be between 0 and 99
+## - zoom, x & y must be between 1 and 100
 ## - rot must be between -180 and 180
 
-# w.zoom 49
-# w.x 49
-# w.y 49
+# w.zoom 50
+# w.x 50
+# w.y 50
+# w.z 50
 # w.rot 0
 
 ## c contains params for the camera position and direction 
@@ -29,12 +30,12 @@
 ## - roty must be between 0 and 180
 ## - rotz must be between 0 and 180
 
-## c.x 49
-## c.y 0
-## c.z 999
-## c.rotx 90
-## c.roty 90
-## c.rotz 90
+# c.x 49
+# c.y 0
+# c.z 999
+# c.rx 90
+# c.ry 90
+# c.rz 90
 
 ## p contains params for the projection
 ## 1 is orthogonal
