@@ -6,7 +6,7 @@
 #    By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/24 09:32:18 by mbaron            #+#    #+#              #
-#    Updated: 2018/01/26 19:23:15 by mbaron           ###   ########.fr        #
+#    Updated: 2018/02/01 13:44:06 by mbaron           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #    Updated: 2018/01/23 08:31:15 by mbaron           ###   ########.fr        #
@@ -55,7 +55,7 @@ SRCS			=	$(DIR)/ft_memset.c			$(DIR)/ft_bzero.c			\
 					$(DIR)/ft_mba_lstfind.c		$(DIR)/ft_mba_lst2find.c	\
 					$(DIR)/ft_mba_lstremone.c	$(DIR)/ft_mba_lst2remone.c	\
 					$(DIR)/ft_mba_lstlen.c		$(DIR)/ft_mba_lst2len.c		\
-					$(DIR)/ft_putstr_array.c
+					$(DIR)/ft_putstr_array.c	$(DIR)/get_next_line.c
 
 OBJS			=		$(SRCS:.c=.o)
 

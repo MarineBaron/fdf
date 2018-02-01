@@ -6,19 +6,23 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 09:23:07 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/01 11:02:24 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/01 16:22:16 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
+# include <stdio.h>
+# include <stdlib.h>
+# include <errno.h>
 # include "libft.h"
-# define DIR_EXE ..
-# define DIR_CONFIG DIR_EXE/config
-# define DIR_MAPS DIR_EXE/maps
-# define CONFIG_FILE_DEFAULT config.def.text
-# define MAP_FILE_DEFAULT 42.fdf
 
+typedef	struct	s_col
+{
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
+}				t_col;
 typedef	struct	s_point
 {
 	double	x;
@@ -35,6 +39,7 @@ typedef struct	s_mapi
 typedef	struct	s_world
 {
 	int		zoom;
+	int		rot;
 	int		x;
 	int		y;
 	int		z;
@@ -52,11 +57,19 @@ typedef	struct	s_proj
 {
 	int		val;
 }				t_proj;
+typedef	struct	s_colc
+{
+	t_col	*floor;
+	t_col	*ceil;
+}				t_colc;
 typedef struct	s_conf
 {
-	t_world	wor;
-	t_cam	cam;
-	t_proj	pro;
+	t_world	*world;
+	t_cam	*camera;
+	t_proj	*proj;
+	t_colc	*color;
+	t_mapi	*mapi;
 }				t_conf;
-int				config_init(int argc, char *argv[], t_mapi *mapi, t_conf *conf);
+int				config_init(int argc, char *argv[], t_conf *conf);
+int				set_error(char *str, int exit);
 #endif

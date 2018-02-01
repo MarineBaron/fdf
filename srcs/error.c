@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/01 09:24:52 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/01 18:43:52 by mbaron           ###   ########.fr       */
+/*   Created: 2018/02/01 14:47:23 by mbaron            #+#    #+#             */
+/*   Updated: 2018/02/01 16:26:27 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int		main(int argc, char *argv[])
+int		set_error(char *str, int ex)
 {
-	t_conf	*conf;
-
-	conf = NULL;
-	if (!config_init(argc, argv, conf))
-		return (1);
-	ft_putendl("Tests are OK, you can begin !!!");
+	if (ft_strlen(str))
+		ft_putendl(str);
+	perror(strerror(errno));
+	if (ex)
+		exit(EXIT_FAILURE);
 	return (0);
 }

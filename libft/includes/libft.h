@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/23 18:21:31 by mbaron            #+#    #+#             */
-/*   Updated: 2018/01/26 13:21:37 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/01 16:59:41 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,5 @@ void			ft_mba_lstremone(t_list **head, t_list *to_rem,
 void			ft_mba_lst2remone(t_list2 **head, t_list2 *to_rem,
 		void (*del)(void *, size_t));
 void			ft_putstr_array(char *tab[], size_t tabl);
+int				get_next_line(int fd, char **line);
 #endif
