@@ -1,0 +1,44 @@
+## Uncomment the lines you want to change
+
+## MAP CONFIG
+## -------------
+## define height & width for the map's representation
+## the window will be larger du ti the control zone
+
+# map.h 1000
+# map.w 1000
+
+## CONTROL CONFIG
+## -------------
+## define height & width for the map's representation
+## the window will be larger due to the control zone
+
+## w contains params for the world 
+## - zoom, x & y must be between 0 and 99
+## - rot must be between -180 and 180
+
+# w.zoom 49
+# w.x 49
+# w.y 49
+# w.rot 0
+
+## c contains params for the camera position and direction 
+## - x & y must be between 0 and 199
+## - z must be between 0 and 999
+## - rotx must be between 90 and 180
+## - roty must be between 0 and 180
+## - rotz must be between 0 and 180
+
+## c.x 49
+## c.y 0
+## c.z 999
+## c.rotx 90
+## c.roty 90
+## c.rotz 90
+
+## p contains params for the projection
+## 1 is orthogonal
+## 2 is isometric
+## 3 is circulaire
+
+# p.val 1
