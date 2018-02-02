@@ -6,7 +6,7 @@
 #    By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/08 14:19:31 by mbaron            #+#    #+#              #
-#    Updated: 2018/02/01 18:49:31 by mbaron           ###   ########.fr        #
+#    Updated: 2018/02/02 11:57:26 by mbaron           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRCS			=		$(DIR_SRCS)/main.c				\
 						$(DIR_SRCS)/config.c			\
 						$(DIR_SRCS)/config_file.c		\
 						$(DIR_SRCS)/config_default.c	\
+						$(DIR_SRCS)/map_init.c	\
 						$(DIR_SRCS)/utils.c				\
 						$(DIR_SRCS)/error.c
 

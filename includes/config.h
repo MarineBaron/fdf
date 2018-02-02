@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 11:28:43 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/01 19:39:35 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/02 11:51:24 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,15 @@
 # define FDF_COL_CEIL_G 0
 # define FDF_COL_CEIL_B 0
 
-typedef	struct	s_lstp
+typedef struct	s_lstmapi
 {
-	t_point		*p;
-	s_lstp		*next;
-}				t_lstp;
-t_conf	*config_default(t_conf *conf);
-int		test_args(int argc, char *argv[]);
-int		get_next_word(char *s1, char *s2, int *index);
-void	config_file_line(t_conf *conf, char *line, int *index);
-void	map_init_line(t_conf *conf, char *line, int l);
+	t_vertex			*vertex;
+	struct s_lstmapi	*next;
+}				t_lstmapi;
+t_conf			*config_default(t_conf *conf);
+int				test_args(int argc, char *argv[]);
+int				get_next_word(char *s1, char *s2, int *index);
+void			config_file_line(t_conf *conf, char *line, int *index);
+void			map_parse_file(t_conf *conf, char *file, t_lstmapi *lstmapi);
+double			ft_getnbr(char *str);
 #endif

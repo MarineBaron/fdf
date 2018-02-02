@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 12:14:47 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/01 18:46:13 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/02 11:56:42 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,32 @@ int			get_next_word(char *s1, char *s2, int *index)
 		s1[j++] = s2[i++];
 	*index = i;
 	return (1);
+}
+
+double		ft_getnbr(char *str)
+{
+	double	value;
+	int		dec;
+	int		i;
+
+	if (!(ft_isdigit(*str)))
+		return (0.0);
+	value = (double)ft_atoi(str);
+	while (*str && ft_isdigit(*str))
+		str++;
+	dec = 0;
+	if (*str && ft_strlen(str) == 9 && !ft_strcmp(ft_strsub(str, 0, 3), ",x0"))
+	{
+		str += 8;
+		i = 0;
+		while (i < 6)
+		{
+			dec ^= (*str < 58 ? *str - 48 : *str - 55) << 4 * i;
+			i++;
+			str--;
+		}
+	}
+	if (dec)
+		value += (double)dec / 1000000;
+	return (value);
 }

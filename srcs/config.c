@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 10:29:08 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/01 19:37:13 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/02 10:07:00 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,25 +43,14 @@ static int		config_file(t_conf *conf, char *file)
 
 static int		config_map(t_conf *conf, char *file)
 {
-	int		fd;
-	char	*line;
-	int		gnl;
-	char	stre[256];
-	t_lstp	*list;
-	
-	ft_strclr(stre);
-	if (0 > (fd = open(file, O_RDONLY)))
-		set_error(ft_strcat(ft_strncpy(stre, file, 252), " : "), 1);
-	if (!(line = ft_strnew(0)))
+	t_lstmapi	*lstmapi;
+
+	if (!(conf->mapi = (t_mapi *)malloc(sizeof(t_mapi))))
 		set_error("Malloc error in config_map", 1);
-	while ((gnl = get_next_line(fd, &line)))
-	{
-		if (-1 == gnl)
-			set_error("Error in GNL", 1);
-		map_init_line(conf, line, list);
-	}
-	if (line)
-		free(line);	
+	conf->mapi->h = 0;
+	conf->mapi->w = 0;
+	lstmapi = NULL;
+	map_parse_file(conf, file, lstmapi);
 	return (1);
 }
 

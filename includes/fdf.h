@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 09:23:07 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/01 16:22:16 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/02 09:16:36 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,18 @@ typedef	struct	s_col
 	unsigned char	g;
 	unsigned char	b;
 }				t_col;
-typedef	struct	s_point
+typedef	struct	s_vertex
 {
 	double	x;
 	double	y;
 	double	z;
 	double	w;
-}				t_point;
+}				t_vertex;
 typedef struct	s_mapi
 {
-	int		h;
-	int		w;
-	t_point	**point;
+	int			h;
+	int			w;
+	t_vertex	**vertex;
 }				t_mapi;
 typedef	struct	s_world
 {
