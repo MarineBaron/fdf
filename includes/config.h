@@ -6,15 +6,16 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 11:28:43 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/02 11:51:24 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/02 17:11:26 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CONFIG_H
 # define CONFIG_H
 # include <fcntl.h>
-# define MAP_DEFAULT_FILE "./maps/42.fdf"
+# define MAP_FILE_DEFAULT "./maps/42.fdf"
 # define CONFIG_FILE_DEFAULT "./config/config.def.txt"
+# define COLOR_DEFAULT "255/255/255-255/255/255"
 # define FDF_USAGE_TITLE "usage:	"
 # define FDF_USAGE_PARAM "./fdf [-f config_file] [-m map_file] [-c r/g/b-r/g/b]"
 # define FDF_USAGE FDF_USAGE_TITLE FDF_USAGE_PARAM

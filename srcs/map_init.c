@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 19:03:30 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/02 12:01:22 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/02 17:59:08 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,23 @@ static void	map_init_line(t_conf *conf, char *str, t_lstmapi *lstmapi)
 {
 	char		**nbrs;
 	int			c;
-	int			l;
+	int			i;
 
-	l = conf->mapi->h;
 	c = 0;
-	nbrs = ft_strsplit(str, ' ');
-	while (*nbrs)
+	if (!(nbrs = ft_strsplit(str, ' ')))
+		set_error("Malloc error in map_init_line", 1);
+	i = 0;
+	while (nbrs[i])
 	{
-		map_add_vertex(&lstmapi, (double)c, (double)l, ft_getnbr(*nbrs));
+		map_add_vertex(&lstmapi, (double)c, (double)conf->mapi->h,
+			ft_getnbr(nbrs[i]));
 		c++;
 		if (c > conf->mapi->w)
 			conf->mapi->w = c;
-		free(*nbrs);
-		*nbrs = NULL;
-		nbrs++;
+		ft_strdel(&nbrs[i]);
+		i++;
 	}
-	free(*nbrs);
-	free(nbrs);
-	nbrs = NULL;
+	ft_strdel(nbrs);
 	conf->mapi->h += 1;
 }
 
@@ -73,6 +72,5 @@ void		map_parse_file(t_conf *conf, char *file, t_lstmapi *lstmapi)
 			set_error("Error in GNL", 1);
 		map_init_line(conf, line, lstmapi);
 	}
-	if (line)
-		free(line);
+	ft_strdel(&line);
 }

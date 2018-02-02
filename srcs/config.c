@@ -6,14 +6,14 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 10:29:08 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/02 10:07:00 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/02 18:16:50 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "config.h"
 
-static int		config_file(t_conf *conf, char *file)
+static void		config_file(t_conf *conf, char *file)
 {
 	int		fd;
 	char	*line;
@@ -36,12 +36,10 @@ static int		config_file(t_conf *conf, char *file)
 		if (line[i] && line[i] != '#')
 			config_file_line(conf, line, &i);
 	}
-	if (line)
-		free(line);
-	return (1);
+	ft_strdel(&line);
 }
 
-static int		config_map(t_conf *conf, char *file)
+static void		config_map(t_conf *conf, char *file)
 {
 	t_lstmapi	*lstmapi;
 
@@ -51,22 +49,53 @@ static int		config_map(t_conf *conf, char *file)
 	conf->mapi->w = 0;
 	lstmapi = NULL;
 	map_parse_file(conf, file, lstmapi);
-	return (1);
 }
 
-static int		config_color(t_conf *conf, char *filename)
+static void		config_color(t_conf *conf, char *str_color)
 {
-	return (1);
+	char	**colors;
+	char	**rgb;
+	int		i;
+
+	if (!(colors = ft_strsplit(str_color, '-')))
+		set_error("Malloc error in config_color", 1);
+	i = -1;
+	while (i++)
+	{
+		if (!(rgb = ft_strsplit(colors[i], '/')))
+			set_error("Malloc error in config_color", 1);
+		if (i)
+		{
+			conf->color->ceil->r = ft_atoi(rgb[0]);
+			conf->color->ceil->g = ft_atoi(rgb[1]);
+			conf->color->ceil->b = ft_atoi(rgb[2]);
+		}
+		else
+		{
+			conf->color->floor->r = ft_atoi(rgb[0]);
+			conf->color->floor->g = ft_atoi(rgb[1]);
+			conf->color->floor->b = ft_atoi(rgb[2]);
+		}
+		ft_memdel((void **)&rgb[0]);
+		ft_memdel((void **)&rgb[1]);
+		ft_memdel((void **)&rgb[2]);
+	}
+	ft_memdel((void **)&rgb);
+	if (i < 1)
+		set_error("Incorrect param color", 1);
 }
 
-int				config_init(int argc, char *argv[], t_conf *conf)
+t_conf			*config_init(int argc, char *argv[])
 {
+	t_conf	*conf;
 	int		i;
 
 	if (!test_args(argc, argv))
 		return (0);
+	conf = NULL;
 	conf = config_default(conf);
 	config_file(conf, CONFIG_FILE_DEFAULT);
+	config_map(conf, MAP_FILE_DEFAULT);
 	i = 1;
 	while (i < argc)
 	{

@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 09:23:07 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/02 09:16:36 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/02 18:15:05 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,6 @@ typedef struct	s_conf
 	t_colc	*color;
 	t_mapi	*mapi;
 }				t_conf;
-int				config_init(int argc, char *argv[], t_conf *conf);
+t_conf			*config_init(int argc, char *argv[]);
 int				set_error(char *str, int exit);
 #endif
