@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 12:14:47 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/02 11:56:42 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/03 11:08:34 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,6 @@ int			test_args(int argc, char *argv[])
 		ft_putendl(FDF_USAGE);
 		return (0);
 	}
-	return (1);
-}
-
-int			get_next_word(char *s1, char *s2, int *index)
-{
-	int		i;
-	int		j;
-
-	i = *index;
-	j = 0;
-	if (!s1 || !s2)
-		return (0);
-	ft_strclr(s1);
-	while (s2[i] && s2[i] == ' ')
-		i++;
-	while (s2[i] && s2[i] != ' ')
-		s1[j++] = s2[i++];
-	*index = i;
 	return (1);
 }
 

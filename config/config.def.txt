@@ -13,7 +13,7 @@
 ## define height & width for the map's representation
 ## the window will be larger due to the control zone
 
-## wor contains params for the world 
+## wor contains params for the world
 ## - zoom, x & y must be between 1 and 100
 ## - rot must be between -180 and 180
 
@@ -23,7 +23,7 @@
 # wor.z 50
 # wor.rot 0
 
-## cam contains params for the camera position and direction 
+## cam contains params for the camera position and direction
 ## - x & y must be between 0 and 199
 ## - z must be between 0 and 999
 ## - rotx must be between 90 and 180

@@ -6,7 +6,7 @@
 #    By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/24 09:32:18 by mbaron            #+#    #+#              #
-#    Updated: 2018/02/01 13:44:06 by mbaron           ###   ########.fr        #
+#    Updated: 2018/02/03 08:23:57 by mbaron           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #    Updated: 2018/01/23 08:31:15 by mbaron           ###   ########.fr        #
@@ -49,13 +49,14 @@ SRCS			=	$(DIR)/ft_memset.c			$(DIR)/ft_bzero.c			\
 					$(DIR)/ft_lstdel.c			$(DIR)/ft_lstadd.c			\
 					$(DIR)/ft_lstiter.c			$(DIR)/ft_lstmap.c			\
 					$(DIR)/ft_mba_lstnew.c		$(DIR)/ft_mba_lst2new.c		\
-					$(DIR)/ft_mba_lst2delone.c								\
-					$(DIR)/ft_mba_lst2add.c		$(DIR)/ft_mba_lst2del.c		\
-					$(DIR)/ft_mba_lstaddafter.c	$(DIR)/ft_mba_lst2addafter.c \
-					$(DIR)/ft_mba_lstfind.c		$(DIR)/ft_mba_lst2find.c	\
-					$(DIR)/ft_mba_lstremone.c	$(DIR)/ft_mba_lst2remone.c	\
-					$(DIR)/ft_mba_lstlen.c		$(DIR)/ft_mba_lst2len.c		\
-					$(DIR)/ft_putstr_array.c	$(DIR)/get_next_line.c
+					$(DIR)/ft_mba_lst2delone.c	$(DIR)/ft_mba_lst2add.c		\
+					$(DIR)/ft_mba_lst2del.c		$(DIR)/ft_mba_lstaddafter.c	\
+					$(DIR)/ft_mba_lst2addafter.c $(DIR)/ft_mba_lstfind.c	\
+					$(DIR)/ft_mba_lst2find.c	$(DIR)/ft_mba_lstremone.c	\
+					$(DIR)/ft_mba_lst2remone.c	$(DIR)/ft_mba_lstlen.c		\
+					$(DIR)/ft_mba_lst2len.c		$(DIR)/ft_putstr_array.c	\
+					$(DIR)/ft_strsplitdel.c		$(DIR)/ft_strsplitnb.c		\
+					$(DIR)/get_next_line.c
 
 OBJS			=		$(SRCS:.c=.o)
 

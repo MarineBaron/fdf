@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 15:37:12 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/01 18:52:58 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/03 15:32:35 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,48 +45,50 @@ static void	config_cam(t_conf *conf, char *param_name, int value)
 
 static void	config_color(t_conf *conf, char *param_name, int value)
 {
-	if (!ft_strcmp(ft_strsub(param_name, 4, 2), "f."))
+	if (param_name[5] == '.')
 	{
-		if (param_name[6] == 'r')
-			conf->color->floor->r = value;
-		else if (param_name[6] == 'g')
-			conf->color->floor->g = value;
-		else if (param_name[6] == 'b')
-			conf->color->floor->b = value;
-	}
-	else if (!ft_strcmp(ft_strsub(param_name, 4, 2), "c."))
-	{
-		if (param_name[6] == 'r')
-			conf->color->ceil->r = value;
-		else if (param_name[6] == 'g')
-			conf->color->ceil->g = value;
-		else if (param_name[6] == 'b')
-			conf->color->ceil->b = value;
+		if (param_name[4] == 'f')
+		{
+			if (param_name[6] == 'r')
+				conf->color->floor->r = value;
+			else if (param_name[6] == 'g')
+				conf->color->floor->g = value;
+			else if (param_name[6] == 'b')
+				conf->color->floor->b = value;
+		}
+		else if (param_name[4] == 'c')
+		{
+			if (param_name[6] == 'r')
+				conf->color->ceil->r = value;
+			else if (param_name[6] == 'g')
+				conf->color->ceil->g = value;
+			else if (param_name[6] == 'b')
+				conf->color->ceil->b = value;
+		}
 	}
 }
 
-void		config_file_line(t_conf *conf, char *line, int *index)
+void		config_file_line(t_conf *conf, char *line)
 {
-	char	param_name[32];
-	char	param_value[32];
-	int		value;
+	char	**params;
 
-	if (get_next_word(param_name, line, index))
+	params = NULL;
+	if (!(params = ft_strsplit(line, ' ')))
+		set_error("Malloc error in config_file_line", 1);
+	if (1 < ft_strsplitnb(params))
 	{
-		if (get_next_word(param_value, line, index))
+		if (ft_strlen(params[0]) == 5 && params[0][4] == '.')
 		{
-			value = ft_atoi(param_value);
-			if (!ft_strcmp(ft_strsub(param_name, 0, 4), "wor.")
-				&& ft_strlen(param_name) == 5)
-				config_world(conf, param_name, value);
-			else if (!ft_strcmp(ft_strsub(param_name, 0, 4), "cam.")
-				&& ft_strlen(param_name) == 5)
-				config_cam(conf, param_name, value);
-			else if (!ft_strcmp(ft_strsub(param_name, 0, 4), "col.")
-				&& ft_strlen(param_name) == 7)
-				config_color(conf, param_name, value);
-			else if (!ft_strcmp(param_name, "pro"))
-				conf->proj->val = value;
+			if (params[0][0] == 'w')
+				config_world(conf, params[0], ft_atoi(params[1]));
+			else if (params[0][0] == 'c')
+				config_cam(conf, params[0], ft_atoi(params[1]));
+			else if (params[0][0] == 'p')
+				conf->proj->val = ft_atoi(params[1]);
 		}
+		else if (ft_strlen(params[0]) == 7 && params[0][6] == '.'
+			&& params[0][0] == 'c')
+		config_color(conf, params[0], ft_atoi(params[1]));
 	}
+	ft_strsplitdel(params);
 }

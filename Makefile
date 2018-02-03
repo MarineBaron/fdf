@@ -6,7 +6,7 @@
 #    By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/08 14:19:31 by mbaron            #+#    #+#              #
-#    Updated: 2018/02/02 11:57:26 by mbaron           ###   ########.fr        #
+#    Updated: 2018/02/03 12:38:46 by mbaron           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ OBJS			=		$(SRCS:.c=.o)
 
 CC				=		gcc
 
-CFLAGS			=		-Wall -Wextra -g -fsanitize=address -fno-omit-frame-pointer
+CFLAGS			=		-Wall -Wextra -g
 
 RM				=		rm -f
 

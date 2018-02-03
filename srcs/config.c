@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 10:29:08 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/02 18:16:50 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/03 15:33:45 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void		config_file(t_conf *conf, char *file)
 	char	stre[256];
 	int		i;
 
+	stre[0] = '\0';
 	ft_strclr(stre);
 	if (0 > (fd = open(file, O_RDONLY)))
 		set_error(ft_strcat(ft_strncpy(stre, file, 252), " : "), 1);
@@ -34,21 +35,18 @@ static void		config_file(t_conf *conf, char *file)
 		while (line[i] && line[i] == ' ')
 			i++;
 		if (line[i] && line[i] != '#')
-			config_file_line(conf, line, &i);
+			config_file_line(conf, line);;
 	}
 	ft_strdel(&line);
 }
 
 static void		config_map(t_conf *conf, char *file)
 {
-	t_lstmapi	*lstmapi;
-
 	if (!(conf->mapi = (t_mapi *)malloc(sizeof(t_mapi))))
 		set_error("Malloc error in config_map", 1);
 	conf->mapi->h = 0;
 	conf->mapi->w = 0;
-	lstmapi = NULL;
-	map_parse_file(conf, file, lstmapi);
+	map_parse_file(conf, file);
 }
 
 static void		config_color(t_conf *conf, char *str_color)
@@ -59,11 +57,15 @@ static void		config_color(t_conf *conf, char *str_color)
 
 	if (!(colors = ft_strsplit(str_color, '-')))
 		set_error("Malloc error in config_color", 1);
-	i = -1;
-	while (i++)
+	if (2 != ft_strsplitnb(colors))
+		set_error("Incorrect param color", 1);
+	i = 1;
+	while (i--)
 	{
 		if (!(rgb = ft_strsplit(colors[i], '/')))
 			set_error("Malloc error in config_color", 1);
+		if (3 != ft_strsplitnb(rgb))
+			set_error("Incorrect param color", 1);
 		if (i)
 		{
 			conf->color->ceil->r = ft_atoi(rgb[0]);
@@ -76,13 +78,9 @@ static void		config_color(t_conf *conf, char *str_color)
 			conf->color->floor->g = ft_atoi(rgb[1]);
 			conf->color->floor->b = ft_atoi(rgb[2]);
 		}
-		ft_memdel((void **)&rgb[0]);
-		ft_memdel((void **)&rgb[1]);
-		ft_memdel((void **)&rgb[2]);
+		ft_strsplitdel(rgb);
 	}
-	ft_memdel((void **)&rgb);
-	if (i < 1)
-		set_error("Incorrect param color", 1);
+	ft_strsplitdel(colors);
 }
 
 t_conf			*config_init(int argc, char *argv[])
@@ -107,5 +105,5 @@ t_conf			*config_init(int argc, char *argv[])
 			config_color(conf, argv[i + 1]);
 		i += 2;
 	}
-	return (1);
+	return (conf);
 }

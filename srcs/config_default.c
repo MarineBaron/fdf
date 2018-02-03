@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 17:59:37 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/01 18:44:52 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/03 11:17:50 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static t_world	*config_default_world(void)
 	world->x = FDF_WORLD_X;
 	world->y = FDF_WORLD_Y;
 	world->z = FDF_WORLD_Z;
+	world->rot = FDF_WORLD_ROT;
 	return (world);
 }
 

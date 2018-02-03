@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 09:23:07 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/02 18:15:05 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/03 09:07:55 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct	s_mapi
 {
 	int			h;
 	int			w;
-	t_vertex	**vertex;
+	t_vertex	***mapi;
 }				t_mapi;
 typedef	struct	s_world
 {

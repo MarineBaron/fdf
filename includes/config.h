@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 11:28:43 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/02 17:11:26 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/03 15:37:51 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,19 @@
 # define FDF_WORLD_Y 50
 # define FDF_WORLD_Z 50
 # define FDF_CAM_X 50
+# define FDF_WORLD_ROT 0
 # define FDF_CAM_Y 50
 # define FDF_CAM_Z 50
-# define FDF_CAM_RX 50
-# define FDF_CAM_RY 50
-# define FDF_CAM_RZ 50
-# define FDF_PROJ_VAL 50
+# define FDF_CAM_RX 0
+# define FDF_CAM_RY 0
+# define FDF_CAM_RZ 0
+# define FDF_PROJ_VAL 1
 # define FDF_COL_FLOOR_R 0
 # define FDF_COL_FLOOR_G 0
 # define FDF_COL_FLOOR_B 0
-# define FDF_COL_CEIL_R 0
-# define FDF_COL_CEIL_G 0
-# define FDF_COL_CEIL_B 0
+# define FDF_COL_CEIL_R 255
+# define FDF_COL_CEIL_G 255
+# define FDF_COL_CEIL_B 255
 
 typedef struct	s_lstmapi
 {
@@ -44,8 +45,7 @@ typedef struct	s_lstmapi
 }				t_lstmapi;
 t_conf			*config_default(t_conf *conf);
 int				test_args(int argc, char *argv[]);
-int				get_next_word(char *s1, char *s2, int *index);
-void			config_file_line(t_conf *conf, char *line, int *index);
-void			map_parse_file(t_conf *conf, char *file, t_lstmapi *lstmapi);
+void			config_file_line(t_conf *conf, char *line);
+void			map_parse_file(t_conf *conf, char *file);
 double			ft_getnbr(char *str);
 #endif
