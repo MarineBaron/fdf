@@ -14,14 +14,14 @@
 ## the window will be larger due to the control zone
 
 ## wor contains params for the world
-## - zoom, x & y must be between 1 and 100
+## - zoom (o), x & y must be between 1 and 100
 ## - rot must be between -180 and 180
 
-# wor.zoom 50
+# wor.o 50
 # wor.x 50
 # wor.y 50
 # wor.z 50
-# wor.rot 0
+# wor.r 0
 
 ## cam contains params for the camera position and direction
 ## - x & y must be between 0 and 199
@@ -33,24 +33,22 @@
 # cam.x 49
 # cam.y 0
 # cam.z 999
-# cam.rx 90
-# cam.ry 90
-# cam.rz 90
+# cam.a 90
+# cam.b 90
+# cam.c 90
 
-## pro contains params for the projection
-## 1 is orthogonal
-## 2 is isometric
-## 3 is circulaire
+## pro contains params for the projection and colors
+## v = 1 is orthogonal
+## v = 2 is isometric
+## v = 3 is circulaire
 
-# pro.val 1
+# pro.v 1
 
-## col contains params for the colors
-## col.floor.r/g/b are floor's colors composantes
-## col.floor.r/g/b are ceil's colors composantes
+## c/0/1 contains params for the colors
+## pro.c define if the next colors are read
+## pro.0 is floor's colors in hex RGB
+## pro.1 is floor's colors in hex RGB
 
-# col.floor.r 0
-# col.floor.g 0
-# col.floor.b 0
-# col.ceil.r 0
-# col.ceil.g 0
-# col.ceil.b 0
+# pro.c 1
+# pro.0 0x000000
+# pro.1 0x000000

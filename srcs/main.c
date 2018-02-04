@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 09:24:52 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/03 15:38:48 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/04 23:03:48 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,8 @@ void	put_conf(t_conf *conf)
 	printf("conf cam.ry:%d \n", conf->camera->ry);
 	printf("conf cam.rz:%d \n", conf->camera->rz);
 	printf("conf proj.val:%d \n", conf->proj->val);
-	printf("conf color.floor.r:%d \n", conf->color->floor->r);
-	printf("conf color.floor.g:%d \n", conf->color->floor->g);
-	printf("conf color.floor.b:%d \n", conf->color->floor->b);
-	printf("conf color.ceil.r:%d \n", conf->color->ceil->r);
-	printf("conf color.ceil.g:%d \n", conf->color->ceil->g);
-	printf("conf color.ceil.b:%d \n", conf->color->ceil->b);
+	printf("conf color.floor:%d \n", conf->color->floor);
+	printf("conf color.ceil:%d \n", conf->color->ceil);
 }
 
 static void conf_clear(t_conf *conf) {
@@ -41,8 +37,6 @@ static void conf_clear(t_conf *conf) {
 	free(conf->world);
 	free(conf->camera);
 	free(conf->proj);
-	free(conf->color->floor);
-	free(conf->color->ceil);
 	free(conf->color);
 	i = -1;
 	while(++i < conf->mapi->h)
@@ -73,6 +67,15 @@ int		main(int argc, char *argv[])
 		return (1);
 	put_conf(conf);
 	ft_putendl("Tests are OK, you can begin !!!");
+	conf->mlx = NULL;
+	if (!(conf->mlx = mlx_init()))
+		set_error("Echec in MLX init", 1);
+	conf->win = NULL;
+	if (!(conf->win = mlx_new_window(conf->mlx, FDF_WIN_W, FDF_WIN_H, "My map")))
+		set_error("Echec in MLX new window", 1);
+	mlx_control_init(conf);
+	mlx_map_init(conf);
+	mlx_loop(conf->mlx);
 	conf_clear(conf);
 	return (0);
 }

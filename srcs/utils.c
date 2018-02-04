@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 12:14:47 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/03 11:08:34 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/04 19:21:20 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,30 +33,20 @@ int			test_args(int argc, char *argv[])
 	return (1);
 }
 
-double		ft_getnbr(char *str)
+unsigned int	ft_atoi_hex(char *str)
 {
-	double	value;
-	int		dec;
-	int		i;
+	int				i;
+	unsigned int	value;
 
-	if (!(ft_isdigit(*str)))
-		return (0.0);
-	value = (double)ft_atoi(str);
-	while (*str && ft_isdigit(*str))
-		str++;
-	dec = 0;
-	if (*str && ft_strlen(str) == 9 && !ft_strcmp(ft_strsub(str, 0, 3), ",x0"))
+	if (ft_strlen(str) != 8)
+		return (0);
+	value = 0;
+	str += 8;
+	i = -1;
+	while (++i < 6)
 	{
-		str += 8;
-		i = 0;
-		while (i < 6)
-		{
-			dec ^= (*str < 58 ? *str - 48 : *str - 55) << 4 * i;
-			i++;
-			str--;
-		}
+		value ^= (*str - (*str < 57 ? 48 : 55)) << i;
+		str--;
 	}
-	if (dec)
-		value += (double)dec / 1000000;
-	return (value);
+	return value;
 }

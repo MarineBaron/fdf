@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 17:59:37 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/03 11:17:50 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/04 20:13:41 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,27 +46,13 @@ static t_cam	*config_default_cam(void)
 
 static t_colc	*config_default_color(void)
 {
-	t_col	*colf;
-	t_col	*colc;
 	t_colc	*col;
 
 	col = NULL;
 	if (!(col = (t_colc *)malloc(sizeof(t_colc))))
 		set_error("Error malloc in config_default_color", 1);
-	colf = NULL;
-	if (!(colf = (t_col *)malloc(sizeof(t_col))))
-		set_error("Error malloc in config_default_color", 1);
-	colc = NULL;
-	if (!(colc = (t_col *)malloc(sizeof(t_col))))
-		set_error("Error malloc in config_default_color", 1);
-	colf->r = FDF_COL_FLOOR_R;
-	colf->g = FDF_COL_FLOOR_G;
-	colf->b = FDF_COL_FLOOR_B;
-	colc->r = FDF_COL_CEIL_R;
-	colc->g = FDF_COL_CEIL_G;
-	colc->b = FDF_COL_CEIL_B;
-	col->floor = colf;
-	col->ceil = colc;
+	col->floor = (t_col) FDF_COL_FLOOR;
+	col->ceil = (t_col) FDF_COL_CEIL;
 	return (col);
 }
 
@@ -84,6 +70,7 @@ t_conf			*config_default(t_conf *conf)
 	if (!(proj = (t_proj *)malloc(sizeof(t_proj))))
 		set_error("Error malloc in config_world", 1);
 	proj->val = FDF_PROJ_VAL;
+	proj->col = FDF_PROJ_COL;
 	conf->proj = proj;
 	return (conf);
 }

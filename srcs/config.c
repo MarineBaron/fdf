@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 10:29:08 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/03 15:33:45 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/04 23:04:43 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,34 +52,13 @@ static void		config_map(t_conf *conf, char *file)
 static void		config_color(t_conf *conf, char *str_color)
 {
 	char	**colors;
-	char	**rgb;
-	int		i;
 
 	if (!(colors = ft_strsplit(str_color, '-')))
 		set_error("Malloc error in config_color", 1);
 	if (2 != ft_strsplitnb(colors))
 		set_error("Incorrect param color", 1);
-	i = 1;
-	while (i--)
-	{
-		if (!(rgb = ft_strsplit(colors[i], '/')))
-			set_error("Malloc error in config_color", 1);
-		if (3 != ft_strsplitnb(rgb))
-			set_error("Incorrect param color", 1);
-		if (i)
-		{
-			conf->color->ceil->r = ft_atoi(rgb[0]);
-			conf->color->ceil->g = ft_atoi(rgb[1]);
-			conf->color->ceil->b = ft_atoi(rgb[2]);
-		}
-		else
-		{
-			conf->color->floor->r = ft_atoi(rgb[0]);
-			conf->color->floor->g = ft_atoi(rgb[1]);
-			conf->color->floor->b = ft_atoi(rgb[2]);
-		}
-		ft_strsplitdel(rgb);
-	}
+	conf->color->floor = ft_atoi_hex(colors[0]);
+	conf->color->ceil = ft_atoi_hex(colors[1]);
 	ft_strsplitdel(colors);
 }
 
@@ -87,23 +66,29 @@ t_conf			*config_init(int argc, char *argv[])
 {
 	t_conf	*conf;
 	int		i;
+	int		is_map;
 
 	if (!test_args(argc, argv))
 		return (0);
 	conf = NULL;
 	conf = config_default(conf);
 	config_file(conf, CONFIG_FILE_DEFAULT);
-	config_map(conf, MAP_FILE_DEFAULT);
 	i = 1;
+	is_map = 0;
 	while (i < argc)
 	{
 		if (!ft_strcmp(argv[i], "-f"))
 			config_file(conf, argv[i + 1]);
 		else if (!ft_strcmp(argv[i], "-m"))
+		{
 			config_map(conf, argv[i + 1]);
+			is_map = 1;
+		}
 		else if (!ft_strcmp(argv[i], "-c"))
 			config_color(conf, argv[i + 1]);
 		i += 2;
 	}
+	if (!is_map)
+		config_map(conf, MAP_FILE_DEFAULT);
 	return (conf);
 }

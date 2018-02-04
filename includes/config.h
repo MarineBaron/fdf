@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 11:28:43 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/03 15:37:51 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/04 20:16:05 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 # include <fcntl.h>
 # define MAP_FILE_DEFAULT "./maps/42.fdf"
 # define CONFIG_FILE_DEFAULT "./config/config.def.txt"
-# define COLOR_DEFAULT "255/255/255-255/255/255"
 # define FDF_USAGE_TITLE "usage:	"
 # define FDF_USAGE_PARAM "./fdf [-f config_file] [-m map_file] [-c r/g/b-r/g/b]"
 # define FDF_USAGE FDF_USAGE_TITLE FDF_USAGE_PARAM
@@ -31,12 +30,9 @@
 # define FDF_CAM_RY 0
 # define FDF_CAM_RZ 0
 # define FDF_PROJ_VAL 1
-# define FDF_COL_FLOOR_R 0
-# define FDF_COL_FLOOR_G 0
-# define FDF_COL_FLOOR_B 0
-# define FDF_COL_CEIL_R 255
-# define FDF_COL_CEIL_G 255
-# define FDF_COL_CEIL_B 255
+# define FDF_PROJ_COL 1
+# define FDF_COL_FLOOR 0x000000
+# define FDF_COL_CEIL 0xFFFFFF
 
 typedef struct	s_lstmapi
 {
@@ -47,5 +43,4 @@ t_conf			*config_default(t_conf *conf);
 int				test_args(int argc, char *argv[]);
 void			config_file_line(t_conf *conf, char *line);
 void			map_parse_file(t_conf *conf, char *file);
-double			ft_getnbr(char *str);
 #endif

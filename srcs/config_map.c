@@ -1,19 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_init.c                                         :+:      :+:    :+:   */
+/*   config_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 19:03:30 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/03 15:36:08 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/04 23:11:27 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "config.h"
 
-static void	map_add_vertex(t_lstmapi **p_lstmapi, double x, double y, double z)
+static t_col	map_get_color(char *str)
+{
+	t_col		col;
+	char		*hex;
+
+	if (!(hex = ft_strchr(str, ',')))
+		set_error("Malloc error in map_add_vertex", 1);
+	col = ft_atoi_hex(hex + 1);
+	ft_strdel(&hex);
+	return(col);
+}
+
+static void	map_add_vertex(t_lstmapi **p_lstmapi, double x, double y, char *str)
 {
 	t_lstmapi	*tmp;
 	t_vertex	*vertex;
@@ -22,7 +34,8 @@ static void	map_add_vertex(t_lstmapi **p_lstmapi, double x, double y, double z)
 		set_error("Malloc error in map_add_vertex", 1);
 	vertex->x = x;
 	vertex->y = y;
-	vertex->z = z;
+	vertex->z = (double)ft_atoi(str);
+	vertex->c = map_get_color(str);
 	if (!(tmp = (t_lstmapi *)malloc(sizeof(t_lstmapi))))
 		set_error("Malloc error in map_add_vertex", 1);
 	tmp->vertex = vertex;
@@ -30,20 +43,19 @@ static void	map_add_vertex(t_lstmapi **p_lstmapi, double x, double y, double z)
 	*p_lstmapi = tmp;
 }
 
-static void	map_init_line(t_conf *conf, char **line, t_lstmapi **lstmapi)
+static void	map_init_line(t_conf *conf, char *line, t_lstmapi **lstmapi)
 {
 	char		**nbrs;
 	int			c;
 	int			i;
 
 	c = 0;
-	if (!(nbrs = ft_strsplit(*line, ' ')))
+	if (!(nbrs = ft_strsplit(line, ' ')))
 		set_error("Malloc error in map_init_line", 1);
 	i = -1;
 	while (nbrs[++i])
 	{
-		map_add_vertex(lstmapi, (double)c, (double)conf->mapi->h,
-			ft_getnbr(nbrs[i]));
+		map_add_vertex(lstmapi, (double)c, (double)conf->mapi->h, nbrs[i]);
 		c++;
 		if (c > conf->mapi->w)
 			conf->mapi->w = c;
@@ -100,7 +112,7 @@ void		map_parse_file(t_conf *conf, char *file)
 	{
 		if (-1 == gnl)
 			set_error("Error in GNL", 1);
-		map_init_line(conf, &line, &lstmapi);
+		map_init_line(conf, line, &lstmapi);
 	}
 	ft_strdel(&line);
 	map_create(conf, lstmapi);
