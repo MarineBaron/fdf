@@ -6,7 +6,7 @@
 #    By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/08 14:19:31 by mbaron            #+#    #+#              #
-#    Updated: 2018/02/04 23:13:07 by mbaron           ###   ########.fr        #
+#    Updated: 2018/02/05 17:01:28 by mbaron           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,22 +22,22 @@ DIR_LIB			=		$(DIR)/libft
 
 DIR_LIB_HEADERS	=		$(DIR_LIB)/includes
 
-DIR_MLX			=		$(DIR)/minilibx
+DIR_MLX			=		$(DIR)/minilibx_macos
 
 DIR_MLX_HEADERS	=		$(DIR_MLX)
 
-INC				=		/usr/include
+INC				=		/usr/local/include
 
 INCLIB			=		$(INC)/../lib
 
 LIB				=		-L$(DIR_LIB) -lft
 
-MLX				=		-L$(DIR_MLX) -lmlx_Linux -L$(INCLIB) -lXext -lX11 -lm -lbsd
+MLX				=		-L$(INCLIB) -lmlx -framework OpenGL -framework AppKit
 
 HEADERS			=		-I$(DIR_HEADERS)			\
 						-I$(DIR_LIB_HEADERS)		\
 						-I$(DIR_MLX_HEADERS)		\
-						-I$(INC) -O3
+						-I$(INC)
 
 SRCS			=		$(DIR_SRCS)/main.c				\
 						$(DIR_SRCS)/config.c			\
@@ -53,7 +53,7 @@ OBJS			=		$(SRCS:.c=.o)
 
 CC				=		gcc
 
-CFLAGS			=		-Wall -Wextra -g
+CFLAGS			=		-Wall -Wextra 
 
 RM				=		rm -f
 

@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/26 18:19:50 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/03 15:24:01 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/05 11:52:04 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void		remove_current(t_lstfd **begin, t_lstfd *current)
 static int		get_new_str(char **line, t_lstfd **begin, t_lstfd *current)
 {
 	int		endl;
-	char 	*tmp;
+	char	*tmp;
 
 	if (current->str)
 	{

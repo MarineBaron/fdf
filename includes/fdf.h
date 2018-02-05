@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 09:23:07 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/04 23:42:01 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/05 16:18:21 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,11 @@
 # include <stdlib.h>
 # include <errno.h>
 # include "mlx.h"
-# include "mlx_int.h"
 # include "libft.h"
-# define FDF_WIN_W 1000
+# define FDF_WIN_W 1500
 # define FDF_WIN_H 800
 # define FDF_MARGE 10
-# define FDF_CONTROL_W 200 - 2 * FDF_MARGE
+# define FDF_CONTROL_W 400 - 2 * FDF_MARGE
 # define FDF_CONTROL_X FDF_MARGE
 # define FDF_CONTROL_Y FDF_MARGE
 # define FDF_MAP_W FDF_WIN_W - FDF_CONTROL_W - 3 * FDF_MARGE
@@ -61,7 +60,7 @@ typedef struct			s_vector
 {
 	t_vertex	*o;
 	t_vertex	*d;
-}				t_vector;
+}						t_vector;
 typedef struct			s_mapi
 {
 	int			h;
@@ -101,6 +100,7 @@ typedef struct			s_mba_img
 	int		y;
 	int		w;
 	int		h;
+	char	*ptr;
 	void	*mlx;
 	int		bpp;
 	int		sl;
@@ -110,20 +110,20 @@ typedef struct			s_mba_img
 }						t_mba_img;
 typedef struct			s_control_c
 {
-	int		x;
-	int		y;
-	int		w;
-	int		h;
-	t_col	c_bg;
-	t_col	c_bd;
-	t_col	c_button;
-	t_col	c_txt;
-	char	*title;
-	int		p_nb;
-	char	**p_name;
-	char	**p_value;
-	t_img	*i_value;
-	t_img	*i_control;
+	int			x;
+	int			y;
+	int			w;
+	int			h;
+	t_col		c_bg;
+	t_col		c_bd;
+	t_col		c_button;
+	t_col		c_txt;
+	char		*title;
+	int			p_nb;
+	char		**p_name;
+	char		**p_value;
+	t_mba_img	*i_value;
+	t_mba_img	*i_control;
 }						t_control_c;
 typedef struct			s_control
 {
@@ -135,7 +135,7 @@ typedef struct			s_control
 }						t_control;
 typedef struct			s_map
 {
-	t_img		*map;
+	t_mba_img	*map;
 	t_vector	**vectors;
 }						t_map;
 typedef struct			s_conf

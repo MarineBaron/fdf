@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 10:29:08 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/04 23:04:43 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/05 10:05:28 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void		config_file(t_conf *conf, char *file)
 	if (0 > (fd = open(file, O_RDONLY)))
 		set_error(ft_strcat(ft_strncpy(stre, file, 252), " : "), 1);
 	if (!(line = ft_strnew(0)))
-		set_error("Malloc error in config_fdf", 1);
+		set_error("Malloc error in config_file", 1);
 	while ((gnl = get_next_line(fd, &line)))
 	{
 		if (-1 == gnl)
@@ -35,7 +35,7 @@ static void		config_file(t_conf *conf, char *file)
 		while (line[i] && line[i] == ' ')
 			i++;
 		if (line[i] && line[i] != '#')
-			config_file_line(conf, line);;
+			config_file_line(conf, line);
 	}
 	ft_strdel(&line);
 }
@@ -69,7 +69,7 @@ t_conf			*config_init(int argc, char *argv[])
 	int		is_map;
 
 	if (!test_args(argc, argv))
-		return (0);
+		return (NULL);
 	conf = NULL;
 	conf = config_default(conf);
 	config_file(conf, CONFIG_FILE_DEFAULT);

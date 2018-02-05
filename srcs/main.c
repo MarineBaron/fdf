@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 09:24:52 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/04 23:03:48 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/05 18:14:01 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,11 @@ int		main(int argc, char *argv[])
 	if (!(conf->mlx = mlx_init()))
 		set_error("Echec in MLX init", 1);
 	conf->win = NULL;
-	if (!(conf->win = mlx_new_window(conf->mlx, FDF_WIN_W, FDF_WIN_H, "My map")))
+	if (!(conf->win = mlx_new_window(conf->mlx, FDF_WIN_W, FDF_WIN_H,
+		"My map")))
 		set_error("Echec in MLX new window", 1);
+	if (!(conf->img = mlx_new_image(conf->mlx, FDF_WIN_W, FDF_WIN_H)))
+		set_error("Echec in MLX new image", 1);
 	mlx_control_init(conf);
 	mlx_map_init(conf);
 	mlx_loop(conf->mlx);
