@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 09:23:07 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/05 16:18:21 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/06 06:55:00 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,21 +94,16 @@ typedef	struct			s_colc
 	t_col	floor;
 	t_col	ceil;
 }						t_colc;
-typedef struct			s_mba_img
+typedef struct			s_rect
 {
 	int		x;
 	int		y;
 	int		w;
 	int		h;
-	char	*ptr;
-	void	*mlx;
-	int		bpp;
-	int		sl;
-	int		ent;
 	t_col	c_bg;
 	t_col	c_bd;
-}						t_mba_img;
-typedef struct			s_control_c
+}						t_rect;
+typedef struct			s_control
 {
 	int			x;
 	int			y;
@@ -122,16 +117,7 @@ typedef struct			s_control_c
 	int			p_nb;
 	char		**p_name;
 	char		**p_value;
-	t_mba_img	*i_value;
-	t_mba_img	*i_control;
-}						t_control_c;
-typedef struct			s_control
-{
-	int			x;
-	int			y;
-	int			w;
-	int			h;
-	t_control_c	*control[3];
+	t_rect		*buttons[2];
 }						t_control;
 typedef struct			s_map
 {
@@ -147,12 +133,17 @@ typedef struct			s_conf
 	t_mapi		*mapi;
 	void		*mlx;
 	void		*win;
-	t_control	*control;
+	void		*img;
+	char		*ptr;
+	int			bpp;
+	int			sl;
+	int			end;
+	t_control	control[3];
 	t_map		*map;
 }						t_conf;
 unsigned int			ft_atoi_hex(char *str);
 int						set_error(char *str, int exit);
 t_conf					*config_init(int argc, char *argv[]);
-void					mlx_control_init(t_conf *conf);
-void					mlx_map_init(t_conf *conf);
+void					mlx_control(t_conf *conf);
+void					mlx_map(t_conf *conf);
 #endif

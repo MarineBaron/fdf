@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/04 09:13:51 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/05 17:42:24 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/06 06:53:02 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static t_control_c	*mlx_control_init_pointers(const char *title, int nb)
 {
 	t_control_c	*cc;
-	
+
 	cc = NULL;
 	if (!(cc = (t_control_c *)malloc(sizeof(t_control_c))))
 		set_error("Malloc Echec in mlx_control_get_world (cc)", 1);
@@ -26,9 +26,9 @@ static t_control_c	*mlx_control_init_pointers(const char *title, int nb)
 		set_error("Malloc Echec in mlx_control_get_world (p_name)", 1);
 	if (!(cc->p_value = (char **)malloc(nb * sizeof(char *))))
 		set_error("Malloc Echec in mlx_control_get_world (p_value)", 1);
-	if (!(cc->i_value = (t_mba_img *)malloc(nb * sizeof(t_mba_img))))
+	if (!(cc->i_value = (t_rect *)malloc(nb * sizeof(t_rect))))
 		set_error("Malloc Echec in mlx_control_get_world (values)", 1);
-	if (!(cc->i_control = (t_mba_img *)malloc(2 * nb * sizeof(t_mba_img))))
+	if (!(cc->i_control = (t_rect *)malloc(2 * nb * sizeof(t_rect))))
 		set_error("Malloc Echec in mlx_control_get_world (p_name)", 1);
 	return (cc);
 }
@@ -41,62 +41,95 @@ static void	mlx_control_set_param(t_control_c *cc, int index, const char *p_name
 		set_error("Malloc Echec in mlx_control_set_params (p_value)", 1);
 }
 
-static void	mlx_control_set_images(t_conf *conf, t_control_c *cc)
+static void fill_rect(t_conf *conf, t_rect	*rect)
 {
-	t_mba_img	*img;
-	int			i;
-	static int	y;
-	
-	if (!y)
-		y = FDF_MARGE + FDF_CONTROL_MARGE;
-	
-	mlx_string_put(conf->mlx, conf->win, FDF_CONTROL_X + FDF_CONTROL_MARGE, y,
-		FDF_CONTROL_TXT2_COLOR, cc->title);
-	y += FDF_CONTROL_H + FDF_CONTROL_MARGE;
-	img = NULL;
-	if(!(img = (t_mba_img *)malloc(sizeof(t_mba_img))))
-		set_error("yMalloc Echec in mlx_control_set_params (img)", 1);
-	img->x = FDF_CONTROL_X;
-	img->w = FDF_CONTROL_W;
-	img->h = FDF_CONTROL_H;
-	img->c_bg = FDF_CONTROL_BG_COLOR;
-	img->c_bd = FDF_CONTROL_BD_COLOR;
-	img->mlx = NULL;
-	if(!(img->mlx = mlx_new_image(conf->mlx, img->w, img->h)))
-		set_error("Malloc Echec in mlx_control_set_params (mlx_img)", 1);
-	img->ptr = mlx_get_data_addr(img->mlx, &img->bpp, &img->sl, &img->ent);
-	printf("mlx_control_set_images0 img:%p mlx:%p ptr:%p\n", img, img->mlx, img->ptr);
-	ft_memset((void *)img->ptr, 15, img->w * img->h * img->bpp);
-	printf("mlx_control_set_images1 img:%p mlx:%p ptr:%p\n", img, img->mlx, img->ptr);
+	int		i;
+	int		j;
+	char	*ptr;
+
+	ptr = conf->ptr;
 	i = -1;
-	while (++i < cc->p_nb)
+	while(++i < rect->h)
 	{
-		printf("mlx_control_set_images3 img:%p mlx:%p ptr:%p\n", img, img->mlx, img->ptr);
-		img->y = y;
-		mlx_put_image_to_window(conf->mlx, conf->win, img->mlx, img->x, img->y);
-		y += FDF_CONTROL_MARGE;
-		mlx_string_put(conf->mlx, conf->win, FDF_CONTROL_P_X, y,
-			FDF_CONTROL_TXT1_COLOR, cc->p_name[i]);
-		mlx_string_put(conf->mlx, conf->win, FDF_CONTROL_V_X, y,
-			FDF_CONTROL_TXT2_COLOR, cc->p_value[i]);
-		y += FDF_CONTROL_H + FDF_CONTROL_MARGE;
-	}
-	printf("mlx_control_set_images4 img:%p mlx:%p ptr:%p\n", img, img->mlx, img->ptr);
-	if (img)
-	{
-		if (img->mlx)
+		ptr = (((rect->y + i) * conf->sl) + rect->x) * conf->bpp;
+		j = -1;
+		while (j < rect->w)
 		{
-			mlx_destroy_image(conf->mlx, img->mlx);
-			img->mlx = NULL;
-			img->ptr = NULL;
+			ptr += conf->bpp;
+			ft_memcpy(ptr, rect->c_bg, conf->bpp);
 		}
-		ft_memdel((void **)&img);
 	}
-	img = NULL;
-	printf("mlx_control_set_images5 img:%p\n", img);
 }
 
-static void	mlx_control_get_world(t_conf *conf, t_control *control)
+static void	mlx_control_put_init(t_conf *conf, int *y,
+	t_rect *rect, t_rect *button)
+{
+	mlx_string_put(conf->mlx, conf->win,
+		FDF_CONTROL_X + FDF_CONTROL_MARGE, *y,
+		FDF_CONTROL_TXT2_COLOR, conf->control[i]->title);
+	*y += FDF_CONTROL_H + FDF_CONTROL_MARGE;
+	rect->x = FDF_CONTROL_X;
+	rect->w = FDF_CONTROL_W;
+	rect->h = FDF_CONTROL_H;
+	rect->c_bg = FDF_CONTROL_BG_COLOR;
+	rect->c_bd = FDF_CONTROL_BD_COLOR;
+	button->w = FDF_CONTROL_C_W;
+	button->h = FDF_CONTROL_C_H;
+	button->c_bg = FDF_CONTROL_BUTTON1_COLOR;
+	button->c_bd = FDF_CONTROL_BD_COLOR;
+}
+
+static t_rect	*mlx_control_put_param(t_conf *conf, int *y,
+	t_rect *rect, t_rect *button)
+{
+	rect->y = *y;
+	fill_rect(conf->ptr, rect);
+	y += FDF_CONTROL_MARGE;
+	mlx_string_put(conf->mlx, conf->win, rect->x + FDF_CONTROL_MARGE,
+		*y + FDF_CONTROL_MARGE, FDF_CONTROL_TXT1_COLOR, conf->control[i]->p_name[j]);
+	mlx_string_put(conf->mlx, conf->win, FDF_CONTROL_V_X + FDF_CONTROL_MARGE,
+		*y  + FDF_CONTROL_MARGE, FDF_CONTROL_TXT2_COLOR, conf->control[i]->p_value[j]);
+	button->x = FDF_CONTROL_C1_X;
+	button->y = *y;
+	fill_rect(conf->ptr, button);
+	mlx_string_put(conf->mlx, conf->win, button->x  + FDF_CONTROL_MARGE,
+		*y +  + FDF_CONTROL_MARGE, FDF_CONTROL_TXT1_COLOR, "-");
+	button->x = FDF_CONTROL_C1_X;
+	fill_rect(conf->ptr, button);
+	mlx_string_put(conf->mlx, conf->win, button->x  + FDF_CONTROL_MARGE,
+		*y +  + FDF_CONTROL_MARGE, FDF_CONTROL_TXT1_COLOR, "+");
+	*y += FDF_CONTROL_H + FDF_CONTROL_MARGE;
+}
+
+static void	mlx_control_put(t_conf *conf)
+{
+	t_rect	*rect;
+	t_rect	*button;
+	int		i;
+	int		j;
+	int		y;
+
+	if(!(rect = (t_rect *)malloc(sizeof(t_rect))))
+		set_error("Malloc Echec in mlx_control_put (rect)", 1);
+	if(!(button = (t_rect *)malloc(sizeof(t_button))))
+		set_error("Malloc Echec in mlx_control_put (button)", 1);
+	y = FDF_MARGE + FDF_CONTROL_MARGE;
+	i = -1;
+	while (++i < 3)
+	{
+		mlx_control_put_init(conf, &y, rect, button);
+		j = 0;
+		while (++j < conf->control[i]->p_nb)
+		{
+			mlx_control_put_param(conf, &y, rect, button);
+			set_control_buttons(conf, i, j, y);
+		}
+	}
+	ft_memdel(rect);
+	ft_memdel(button);
+}
+
+static void	mlx_control_get_world(t_conf *conf)
 {
 	t_control_c	*cc;
 
@@ -106,10 +139,10 @@ static void	mlx_control_get_world(t_conf *conf, t_control *control)
 	mlx_control_set_param(cc, 2, "Center Z (%)", conf->world->z);
 	mlx_control_set_param(cc, 3, "Zoom (%)", conf->world->zoom);
 	mlx_control_set_param(cc, 4, "Rotate (°)", conf->world->rot);
-	control->control[0] = cc;
+	conf->control[0] = cc;
 }
 
-static void	mlx_control_get_camera(t_conf *conf, t_control *control)
+static void	mlx_control_get_camera(t_conf *conf)
 {
 	t_control_c	*cc;
 
@@ -120,10 +153,10 @@ static void	mlx_control_get_camera(t_conf *conf, t_control *control)
 	mlx_control_set_param(cc, 3, "Rotate on X axis (°)", conf->camera->rx);
 	mlx_control_set_param(cc, 4, "Rotate on Y axis (°)", conf->camera->ry);
 	mlx_control_set_param(cc, 5, "Rotate on Z axis (°)", conf->camera->rz);
-	control->control[1] = cc;
+	conf->control[1] = cc;
 }
 
-static void	mlx_control_get_proj(t_conf *conf, t_control *control)
+static void	mlx_control_get_proj(t_conf *conf)
 {
 	t_control_c	*cc;
 
@@ -133,26 +166,13 @@ static void	mlx_control_get_proj(t_conf *conf, t_control *control)
 	mlx_control_set_param(cc, 1, "Color gradient ? (0:1)", conf->proj->col);
 	mlx_control_set_param(cc, 2, "Color floor", conf->color->floor);
 	mlx_control_set_param(cc, 3, "Color ceil", 	conf->color->ceil);
-	control->control[2] = cc;
+	conf->control[2] = cc;
 }
 
-void	mlx_control_init(t_conf *conf)
+void	mlx_control(t_conf *conf)
 {
-	t_control	*control;
-	int			i;
-
-	control = NULL;
-	if (!(control = (t_control *)malloc(sizeof(t_control))))
-		set_error("Maloc Echec in mlx_control_init", 1);
-	control->x = FDF_CONTROL_X;
-	control->y = FDF_CONTROL_Y;
-	control->w = FDF_CONTROL_W;
-	control->h = FDF_CONTROL_W;
-	mlx_control_get_world(conf, control);
-	mlx_control_get_camera(conf, control);
-	mlx_control_get_proj(conf, control);
-	conf->control = control;
-	i = -1;
-	while (++i < 3)
-		mlx_control_set_images(conf, control->control[i]);
+	mlx_control_get_world(conf);
+	mlx_control_get_camera(conf);
+	mlx_control_get_proj(conf);
+	mlx_control_put(conf, conf->control->control);
 }

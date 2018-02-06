@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 09:24:52 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/05 18:14:01 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/05 23:48:36 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,17 @@ int		main(int argc, char *argv[])
 		return (1);
 	put_conf(conf);
 	ft_putendl("Tests are OK, you can begin !!!");
-	conf->mlx = NULL;
 	if (!(conf->mlx = mlx_init()))
 		set_error("Echec in MLX init", 1);
-	conf->win = NULL;
 	if (!(conf->win = mlx_new_window(conf->mlx, FDF_WIN_W, FDF_WIN_H,
 		"My map")))
 		set_error("Echec in MLX new window", 1);
 	if (!(conf->img = mlx_new_image(conf->mlx, FDF_WIN_W, FDF_WIN_H)))
 		set_error("Echec in MLX new image", 1);
-	mlx_control_init(conf);
-	mlx_map_init(conf);
+	conf->ptr = mlx_get_data_addr(conf->img, &conf->bpp, &conf->sl, &conf->end);
+	conf->bpp /= 8;
+	mlx_control(conf);
+	mlx_map(conf);
 	mlx_loop(conf->mlx);
 	conf_clear(conf);
 	return (0);
