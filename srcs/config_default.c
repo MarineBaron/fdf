@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 17:59:37 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/04 20:13:41 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/06 18:46:31 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ static t_colc	*config_default_color(void)
 	col = NULL;
 	if (!(col = (t_colc *)malloc(sizeof(t_colc))))
 		set_error("Error malloc in config_default_color", 1);
-	col->floor = (t_col) FDF_COL_FLOOR;
-	col->ceil = (t_col) FDF_COL_CEIL;
+	col->floor = (t_col)FDF_COL_FLOOR;
+	col->ceil = (t_col)FDF_COL_CEIL;
 	return (col);
 }
 

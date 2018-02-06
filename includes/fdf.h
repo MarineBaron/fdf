@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 09:23:07 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/06 15:23:12 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/06 19:06:10 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdlib.h>
 # include <errno.h>
 # include "mlx.h"
+# include "mlx_key_macos.h"
 # include "libft.h"
 # define FDF_WIN_W 1500
 # define FDF_WIN_H 800
@@ -77,6 +78,36 @@
 # define FDF_MAX_PROJ_COLF 0xFFFFFF
 # define FDF_MIN_PROJ_COLC 0
 # define FDF_MAX_PROJ_COLC 0xFFFFFF
+# define FDF_KUP_WORLD_X KEY_RIGHT
+# define FDF_KDN_WORLD_X KEY_LEFT
+# define FDF_KUP_WORLD_Y KEY_UP
+# define FDF_KDN_WORLD_Y KEY_DOWN
+# define FDF_KUP_WORLD_Z KEY_PAGE_UP
+# define FDF_KDN_WORLD_Z KEY_PAGE_DOWN
+# define FDF_KUP_WORLD_ZOOM KEY_PAD_ADD
+# define FDF_KDN_WORLD_ZOOM KEY_PAD_SUB
+# define FDF_KUP_WORLD_ROT KEY_SHIFT_RIGHT
+# define FDF_KDN_WORLD_ROT KEY_SHIFT_LEFT
+# define FDF_KUP_CAM_X KEY_PAD_3
+# define FDF_KDN_CAM_X KEY_PAD_1
+# define FDF_KUP_CAM_Y KEY_PAD_5
+# define FDF_KDN_CAM_Y KEY_PAD_2
+# define FDF_KUP_CAM_Z KEY_PAD_9
+# define FDF_KDN_CAM_Z KEY_PAD_6
+# define FDF_KUP_CAM_RX KEY_9
+# define FDF_KDN_CAM_RX KEY_0
+# define FDF_KUP_CAM_RY KEY_OPEN_BRACE
+# define FDF_KDN_CAM_RY KEY_CLOSE_BRACE
+# define FDF_KUP_CAM_RZ KEY_O
+# define FDF_KDN_CAM_RZ KEY_P
+# define FDF_KUP_PROJ_VAL KEY_1
+# define FDF_KDN_PROJ_VAL KEY_2
+# define FDF_KUP_PROJ_COL KEY_3
+# define FDF_KDN_PROJ_COL KEY_4
+# define FDF_KUP_PROJ_COLF KEY_C
+# define FDF_KDN_PROJ_COLF KEY_V
+# define FDF_KUP_PROJ_COLC KEY_F
+# define FDF_KDN_PROJ_COLC KEY_G
 
 typedef unsigned int	t_col;
 typedef	struct			s_vertex
@@ -147,10 +178,12 @@ typedef struct			s_control
 	char		*title;
 	int			p_nb;
 	char		**p_name;
-	char		**p_value;
+	int			*p_value;
 	int			*p_min;
 	int			*p_max;
-	t_rect		*buttons[2];
+	int			*k_dwn;
+	int			*k_up;
+	t_rect		***buttons;
 }						t_control;
 typedef struct			s_map
 {
@@ -181,4 +214,6 @@ void					mlx_control(t_conf *conf);
 void					mlx_map(t_conf *conf);
 void					mlx_control_put_txt(t_conf *conf);
 void					fill_rect(t_conf *conf, t_rect *rect);
+int						hook_key(int key, t_conf *conf);
+int						hook_mouse(int button, int x, int y, t_conf *conf);
 #endif

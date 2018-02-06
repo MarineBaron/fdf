@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 09:24:52 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/06 15:43:26 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/06 18:14:30 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	put_conf(t_conf *conf)
 	printf("conf color.ceil:%d \n", conf->color->ceil);
 }
 
-static void conf_clear(t_conf *conf) {
+static void	clear(t_conf *conf)
+{
 	int		i;
 	int		j;
 
@@ -39,14 +40,14 @@ static void conf_clear(t_conf *conf) {
 	free(conf->proj);
 	free(conf->color);
 	i = -1;
-	while(++i < conf->mapi->h)
+	while (++i < conf->mapi->h)
 	{
 		j = -1;
-		while(++j < conf->mapi->w)
-			{
-				free(conf->mapi->mapi[i][j]);
-				conf->mapi->mapi[i][j] = NULL;
-			}
+		while (++j < conf->mapi->w)
+		{
+			free(conf->mapi->mapi[i][j]);
+			conf->mapi->mapi[i][j] = NULL;
+		}
 		free(conf->mapi->mapi[i]);
 		conf->mapi->mapi[i] = NULL;
 	}
@@ -58,6 +59,26 @@ static void conf_clear(t_conf *conf) {
 	conf = NULL;
 }
 
+static void	render(t_conf *conf)
+{
+	conf->mlx = NULL;
+	if (!(conf->mlx = mlx_init()))
+		set_error("Echec in MLX init", 1);
+	conf->win = NULL;
+	if (!(conf->win = mlx_new_window(conf->mlx, FDF_WIN_W, FDF_WIN_H,
+		"My map")))
+		set_error("Echec in MLX new window", 1);
+	conf->img = NULL;
+	if (!(conf->img = mlx_new_image(conf->mlx, FDF_WIN_W, FDF_WIN_H)))
+		set_error("Echec in MLX new image", 1);
+	conf->ptr = mlx_get_data_addr(conf->img, &conf->bpp, &conf->sl, &conf->end);
+	conf->bpp /= 8;
+	mlx_control(conf);
+	mlx_map(conf);
+	mlx_put_image_to_window(conf->mlx, conf->win, conf->img, 0, 0);
+	mlx_control_put_txt(conf);
+}
+
 int		main(int argc, char *argv[])
 {
 	t_conf	*conf;
@@ -67,22 +88,10 @@ int		main(int argc, char *argv[])
 		return (1);
 	put_conf(conf);
 	ft_putendl("Tests are OK, you can begin !!!");
-	if (!(conf->mlx = mlx_init()))
-		set_error("Echec in MLX init", 1);
-	if (!(conf->win = mlx_new_window(conf->mlx, FDF_WIN_W, FDF_WIN_H,
-		"My map")))
-		set_error("Echec in MLX new window", 1);
-	if (!(conf->img = mlx_new_image(conf->mlx, FDF_WIN_W, FDF_WIN_H)))
-		set_error("Echec in MLX new image", 1);
-	conf->ptr = mlx_get_data_addr(conf->img, &conf->bpp, &conf->sl, &conf->end);
-	conf->bpp /= 8;
-	mlx_control(conf);
-	mlx_map(conf);
-	mlx_put_image_to_window(conf->mlx, conf->win, conf->img, 0, 0);
-	mlx_control_put_txt(conf);
-	mlx_key_hook(conf->win, hook_keydown, conf->mlx);
-	mlx_hook(conf->win, hook_keydown, conf->mlx);
+	render(conf);
+	mlx_key_hook(conf->win, hook_key, conf);
+	mlx_mouse_hook(conf->win, hook_mouse, conf);
 	mlx_loop(conf->mlx);
-	conf_clear(conf);
+	clear(conf);
 	return (0);
 }
