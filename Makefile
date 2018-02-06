@@ -6,7 +6,7 @@
 #    By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/08 14:19:31 by mbaron            #+#    #+#              #
-#    Updated: 2018/02/05 17:01:28 by mbaron           ###   ########.fr        #
+#    Updated: 2018/02/06 11:34:58 by mbaron           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,7 @@ OBJS			=		$(SRCS:.c=.o)
 
 CC				=		gcc
 
-CFLAGS			=		-Wall -Wextra 
+CFLAGS			=		-Wall -Wextra -g -fsanitize=address
 
 RM				=		rm -f
 
@@ -62,7 +62,7 @@ all				:		$(NAME)
 $(NAME)			:		$(OBJS)
 						$(MAKE) -C $(DIR_LIB)
 						$(CC) -o $(NAME) $(OBJS) $(CFLAGS) $(HEADERS) \
-						$(LIB) $(MLX)
+						$(LIB) $(MLX) 
 
 %.o				:		%.c
 						$(CC) -o $@ -c $< $(CFLAGS) $(HEADERS)

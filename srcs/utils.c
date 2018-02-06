@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 12:14:47 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/04 19:21:20 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/06 14:56:43 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,25 @@ unsigned int	ft_atoi_hex(char *str)
 		value ^= (*str - (*str < 57 ? 48 : 55)) << i;
 		str--;
 	}
-	return value;
+	return (value);
+}
+
+void			fill_rect(t_conf *conf, t_rect *rect)
+{
+	int		i;
+	int		j;
+	char	*ptr;
+
+	ptr = conf->ptr;
+	i = -1;
+	while (++i < rect->h)
+	{
+		ptr = conf->ptr + (((rect->y + i) * conf->sl) + rect->x * conf->bpp);
+		j = -1;
+		while (++j < rect->w)
+		{
+			ft_memcpy(ptr, (void *)&rect->c_bg, conf->bpp);
+			ptr += conf->bpp;
+		}
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 09:24:52 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/05 23:48:36 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/06 15:43:26 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,10 @@ int		main(int argc, char *argv[])
 	conf->bpp /= 8;
 	mlx_control(conf);
 	mlx_map(conf);
+	mlx_put_image_to_window(conf->mlx, conf->win, conf->img, 0, 0);
+	mlx_control_put_txt(conf);
+	mlx_key_hook(conf->win, hook_keydown, conf->mlx);
+	mlx_hook(conf->win, hook_keydown, conf->mlx);
 	mlx_loop(conf->mlx);
 	conf_clear(conf);
 	return (0);
