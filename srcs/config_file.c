@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 15:37:12 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/04 23:06:34 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/07 18:29:43 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void		config_file_line(t_conf *conf, char *line)
 	params = NULL;
 	if (!(params = ft_strsplit(line, ' ')))
 		set_error("Malloc error in config_file_line", 1);
-	if (1 < ft_strsplitnb(params))
+	if (1 < ft_strsplitnb(params) && params[0][0] && params[0][0] != '#')
 	{
 		if (ft_strlen(params[0]) == 5 && params[0][4] == '.')
 		{
@@ -73,7 +73,8 @@ void		config_file_line(t_conf *conf, char *line)
 			else if (params[0][0] == 'p')
 				config_proj(conf, params[0],
 					(params[0][4] == 'v' || params[0][4] == 'c')
-					? (unsigned int)ft_atoi(params[1]) : ft_atoi_hex(params[1]));
+					? (unsigned int)ft_atoi(params[1])
+					: ft_atoi_hex(params[1]));
 		}
 	}
 	ft_strsplitdel(params);

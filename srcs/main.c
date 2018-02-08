@@ -6,92 +6,109 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 09:24:52 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/06 18:14:30 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/08 09:13:03 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	put_conf(t_conf *conf)
-{
-	ft_putendl("CONF:");
-	printf("conf world.x:%d \n", conf->world->x);
-	printf("conf world.y:%d \n", conf->world->y);
-	printf("conf world.zoom:%d \n", conf->world->zoom);
-	printf("conf world.rot:%d \n", conf->world->rot);
-	printf("conf cam.x:%d \n", conf->camera->x);
-	printf("conf cam.y:%d \n", conf->camera->y);
-	printf("conf cam.z:%d \n", conf->camera->z);
-	printf("conf cam.rx:%d \n", conf->camera->rx);
-	printf("conf cam.ry:%d \n", conf->camera->ry);
-	printf("conf cam.rz:%d \n", conf->camera->rz);
-	printf("conf proj.val:%d \n", conf->proj->val);
-	printf("conf color.floor:%d \n", conf->color->floor);
-	printf("conf color.ceil:%d \n", conf->color->ceil);
-}
-
-static void	clear(t_conf *conf)
+static void	destroy_control(t_conf *conf)
 {
 	int		i;
 	int		j;
 
-	free(conf->world);
-	free(conf->camera);
-	free(conf->proj);
-	free(conf->color);
+	i = -1;
+	while (++i < 3)
+	{
+		ft_memdel((void **)&conf->control[i]->title);
+		ft_memdel((void **)&conf->control[i]->pos_title);
+		j = -1;
+		while (++j < conf->control[i]->p_nb)
+		{
+			ft_memdel((void **)&conf->control[i]->params[j]->name);
+			ft_memdel((void **)&conf->control[i]->params[j]->pos_param);
+			ft_memdel((void **)&conf->control[i]->params[j]->pos_value);
+			ft_memdel((void **)&conf->control[i]->params[j]->buttons[0]);
+			ft_memdel((void **)&conf->control[i]->params[j]->buttons[1]);
+			ft_memdel((void **)&conf->control[i]->params[j]->buttons);
+		}
+		ft_memdel((void **)&conf->control[i]);
+	}
+	ft_memdel((void **)&conf->control);
+}
+
+static void	destroy_map(t_conf *conf)
+{
+	int		i;
+	int		j;
+
 	i = -1;
 	while (++i < conf->mapi->h)
 	{
 		j = -1;
 		while (++j < conf->mapi->w)
-		{
-			free(conf->mapi->mapi[i][j]);
-			conf->mapi->mapi[i][j] = NULL;
-		}
-		free(conf->mapi->mapi[i]);
-		conf->mapi->mapi[i] = NULL;
+			ft_memdel((void **)&conf->mapi->vertexes[i][j]);
+		ft_memdel((void **)&conf->mapi->vertexes[i]);
 	}
-	free(conf->mapi->mapi);
-	conf->mapi->mapi = NULL;
-	free(conf->mapi);
-	conf->mapi = NULL;
-	free(conf);
-	conf = NULL;
+	ft_memdel((void **)&conf->mapi->vertexes);
+	ft_memdel((void **)&conf->mapi);
+	ft_memdel((void **)&conf->map);
 }
 
-static void	render(t_conf *conf)
+static void	destroy(t_conf *conf)
 {
-	conf->mlx = NULL;
-	if (!(conf->mlx = mlx_init()))
-		set_error("Echec in MLX init", 1);
-	conf->win = NULL;
-	if (!(conf->win = mlx_new_window(conf->mlx, FDF_WIN_W, FDF_WIN_H,
-		"My map")))
-		set_error("Echec in MLX new window", 1);
-	conf->img = NULL;
-	if (!(conf->img = mlx_new_image(conf->mlx, FDF_WIN_W, FDF_WIN_H)))
-		set_error("Echec in MLX new image", 1);
-	conf->ptr = mlx_get_data_addr(conf->img, &conf->bpp, &conf->sl, &conf->end);
-	conf->bpp /= 8;
-	mlx_control(conf);
-	mlx_map(conf);
-	mlx_put_image_to_window(conf->mlx, conf->win, conf->img, 0, 0);
-	mlx_control_put_txt(conf);
+	destroy_control(conf);
+	ft_memdel((void **)&conf->world);
+	ft_memdel((void **)&conf->camera);
+	ft_memdel((void **)&conf->proj);
+	ft_memdel((void **)&conf->color);
+	destroy_map(conf);
+	mlx_destroy_image(conf->mlx, conf->img);
+	ft_memdel((void **)&conf->img);
+	mlx_destroy_window(conf->mlx, conf->win);
+	ft_memdel((void **)&conf->win);
+	ft_memdel((void **)&conf->mlx);
 }
 
-int		main(int argc, char *argv[])
+void	render(t_conf *conf)
+{
+	if (!conf->mlx)
+	{
+		ft_putendl("Init MLX");
+		if (!(conf->mlx = mlx_init()))
+			set_error("Echec in MLX init", 1);
+		if (!conf->win && !(conf->win = mlx_new_window(conf->mlx,
+			FDF_WIN_W, FDF_WIN_H, "My map")))
+			set_error("Echec in MLX new window", 1);
+		if (!conf->img && !(conf->img = mlx_new_image(conf->mlx,
+			FDF_WIN_W, FDF_WIN_H)))
+			set_error("Echec in MLX new image", 1);
+		conf->ptr = mlx_get_data_addr(conf->img, &conf->bpp, &conf->sl,
+			&conf->end);
+		conf->bpp /= 8;
+		set_img_control(conf);
+	}
+	ft_putendl("Render");
+	set_img_clear(conf);
+	set_img_control_value(conf);
+	set_img_map(conf);
+	mlx_put_image_to_window(conf->mlx, conf->win, conf->img, 0, 0);
+	set_txt_control(conf);
+	set_txt_control_value(conf);
+}
+
+int			main(int argc, char *argv[])
 {
 	t_conf	*conf;
 
 	conf = NULL;
 	if (!(conf = config_init(argc, argv)))
 		return (1);
-	put_conf(conf);
-	ft_putendl("Tests are OK, you can begin !!!");
+	ft_putendl("Config is OK, you can play !!!");
 	render(conf);
 	mlx_key_hook(conf->win, hook_key, conf);
 	mlx_mouse_hook(conf->win, hook_mouse, conf);
 	mlx_loop(conf->mlx);
-	clear(conf);
+	destroy(conf);
 	return (0);
 }

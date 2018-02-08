@@ -6,7 +6,7 @@
 #    By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/08 14:19:31 by mbaron            #+#    #+#              #
-#    Updated: 2018/02/06 18:10:39 by mbaron           ###   ########.fr        #
+#    Updated: 2018/02/07 17:28:39 by mbaron           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,15 +39,17 @@ HEADERS			=		-I$(DIR_HEADERS)			\
 						-I$(DIR_MLX_HEADERS)		\
 						-I$(INC)
 
-SRCS			=		$(DIR_SRCS)/main.c				\
-						$(DIR_SRCS)/config.c			\
-						$(DIR_SRCS)/config_file.c		\
-						$(DIR_SRCS)/config_default.c	\
-						$(DIR_SRCS)/config_map.c		\
-						$(DIR_SRCS)/mlx_control.c		\
-						$(DIR_SRCS)/mlx_map.c			\
-						$(DIR_SRCS)/hooks.c				\
-						$(DIR_SRCS)/utils.c				\
+SRCS			=		$(DIR_SRCS)/main.c					\
+						$(DIR_SRCS)/config.c				\
+						$(DIR_SRCS)/config_file.c			\
+						$(DIR_SRCS)/config_default.c		\
+						$(DIR_SRCS)/config_map.c			\
+						$(DIR_SRCS)/config_control.c		\
+						$(DIR_SRCS)/config_control_helper.c	\
+						$(DIR_SRCS)/img_control.c			\
+						$(DIR_SRCS)/img_map.c				\
+						$(DIR_SRCS)/hooks.c					\
+						$(DIR_SRCS)/utils.c					\
 						$(DIR_SRCS)/error.c
 
 OBJS			=		$(SRCS:.c=.o)

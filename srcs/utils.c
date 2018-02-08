@@ -6,20 +6,20 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 12:14:47 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/06 14:56:43 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/07 19:26:15 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "config.h"
 
-static int	is_correct_arg(char *str)
+static int		is_correct_arg(char *str)
 {
 	return (!ft_strcmp(str, "-f") || !ft_strcmp(str, "-m")
 		|| !ft_strcmp(str, "-c"));
 }
 
-int			test_args(int argc, char *argv[])
+int				test_args(int argc, char *argv[])
 {
 	if ((argc != 1 && argc != 3 && argc != 5 && argc != 7) || (argc > 2
 		&& !is_correct_arg(argv[1])) || (argc > 4 && (!is_correct_arg(argv[3])
@@ -69,4 +69,14 @@ void			fill_rect(t_conf *conf, t_rect *rect)
 			ptr += conf->bpp;
 		}
 	}
+}
+
+void			*init_pointer(size_t size, char *str_error)
+{
+	void *p;
+
+	p = NULL;
+	if (!(p = ft_memalloc(size)))
+		set_error(str_error, 1);
+	return (p);
 }

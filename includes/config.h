@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 11:28:43 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/04 20:16:05 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/07 18:52:26 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ typedef struct	s_lstmapi
 	t_vertex			*vertex;
 	struct s_lstmapi	*next;
 }				t_lstmapi;
-t_conf			*config_default(t_conf *conf);
+t_conf			*config_default();
+t_control		*config_control_init_pointers(const char *title, int nb);
 int				test_args(int argc, char *argv[]);
 void			config_file_line(t_conf *conf, char *line);
 void			map_parse_file(t_conf *conf, char *file);

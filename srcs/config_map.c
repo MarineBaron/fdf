@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 19:03:30 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/05 10:07:37 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/08 07:49:10 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,35 +71,39 @@ static void		map_init_line(t_conf *conf, char *line, t_lstmapi **lstmapi)
 static void		map_create(t_conf *conf, t_lstmapi *lstmapi)
 {
 	t_lstmapi	*tmp;
-	t_vertex	***mapi;
+	t_vertex	***vertexes;
 	int			i;
-	int			j;
 
-	if (!(mapi = (t_vertex ***)malloc(conf->mapi->h * sizeof(t_vertex **))))
-		set_error("Malloc error in map_create", 1);
+	vertexes = (t_vertex ***)init_pointer(conf->mapi->h * sizeof(t_vertex **),
+		"Malloc error in map_create (vertexes)");
 	i = -1;
 	while (++i < conf->mapi->h)
-	{
-		if (!(mapi[i] = (t_vertex **)malloc(conf->mapi->w
-			* sizeof(t_vertex *))))
-			set_error("Malloc error in map_create", 1);
-		j = -1;
-		while (++j < conf->mapi->w)
-			mapi[i][j] = NULL;
-	}
+		vertexes[i] = (t_vertex **)init_pointer(conf->mapi->w
+			* sizeof(t_vertex *), "Malloc error in map_create (vertexes[i])");
 	tmp = lstmapi;
 	while (lstmapi)
 	{
-		mapi[conf->mapi->h - (int)tmp->vertex->y - 1]
+		vertexes[conf->mapi->h - (int)tmp->vertex->y - 1]
 			[(int)tmp->vertex->x] = tmp->vertex;
 		tmp = lstmapi->next;
-		free(lstmapi);
+		ft_memdel((void **)&lstmapi);
 		lstmapi = tmp;
 	}
-	conf->mapi->mapi = mapi;
+	conf->mapi->vertexes = vertexes;
+	conf->map = (t_map *)init_pointer(sizeof(t_map),
+		"Malloc error in map_create (conf->map)");
+	conf->map->rect = (t_rect *)init_pointer(sizeof(t_rect),
+		"Malloc error in map_create (conf->map->rect)");
+	conf->map->rect->x = FDF_MAP_X;
+	conf->map->rect->y = FDF_MAP_Y;
+	conf->map->rect->w = FDF_MAP_W;
+	conf->map->rect->h = FDF_MAP_H;
+	conf->map->rect->c_bg = FDF_MAP_BG_COLOR;
+	conf->map->rect->c_bd = FDF_MAP_BD_COLOR;
+	conf->map->vectors = NULL;
 }
 
-void		map_parse_file(t_conf *conf, char *file)
+void			map_parse_file(t_conf *conf, char *file)
 {
 	int			fd;
 	char		*line;

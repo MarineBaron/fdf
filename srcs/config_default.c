@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 17:59:37 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/06 18:46:31 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/07 19:41:52 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,13 @@ static t_world	*config_default_world(void)
 {
 	t_world	*world;
 
-	world = NULL;
-	if (!(world = (t_world *)malloc(sizeof(t_world))))
-		set_error("Error malloc in config_default_world", 1);
-	world->zoom = FDF_WORLD_ZOOM;
-	world->x = FDF_WORLD_X;
-	world->y = FDF_WORLD_Y;
-	world->z = FDF_WORLD_Z;
-	world->rot = FDF_WORLD_ROT;
+	world = (t_world *)init_pointer(sizeof(t_world),
+		"Error malloc in config_default_world");
+	world->zoom = FDF_W_ZOOM;
+	world->x = FDF_W_X;
+	world->y = FDF_W_Y;
+	world->z = FDF_W_Z;
+	world->rot = FDF_W_ROT;
 	return (world);
 }
 
@@ -32,15 +31,14 @@ static t_cam	*config_default_cam(void)
 {
 	t_cam	*cam;
 
-	cam = NULL;
-	if (!(cam = (t_cam *)malloc(sizeof(t_cam))))
-		set_error("Error malloc in config_default_cam", 1);
-	cam->x = FDF_CAM_X;
-	cam->y = FDF_CAM_Y;
-	cam->z = FDF_CAM_Z;
-	cam->rx = FDF_CAM_RX;
-	cam->ry = FDF_CAM_RY;
-	cam->rz = FDF_CAM_RZ;
+	cam = (t_cam *)init_pointer(sizeof(t_cam),
+		"Error malloc in config_default_cam");
+	cam->x = FDF_C_X;
+	cam->y = FDF_C_Y;
+	cam->z = FDF_C_Z;
+	cam->rx = FDF_C_RX;
+	cam->ry = FDF_C_RY;
+	cam->rz = FDF_C_RZ;
 	return (cam);
 }
 
@@ -48,29 +46,25 @@ static t_colc	*config_default_color(void)
 {
 	t_colc	*col;
 
-	col = NULL;
-	if (!(col = (t_colc *)malloc(sizeof(t_colc))))
-		set_error("Error malloc in config_default_color", 1);
+	col = (t_colc *)init_pointer(sizeof(t_colc),
+		"Error malloc in config_default_color");
 	col->floor = (t_col)FDF_COL_FLOOR;
 	col->ceil = (t_col)FDF_COL_CEIL;
 	return (col);
 }
 
-t_conf			*config_default(t_conf *conf)
+t_conf			*config_default(void)
 {
-	t_proj	*proj;
+	t_conf	*conf;
 
-	conf = NULL;
-	if (!(conf = (t_conf *)malloc(sizeof(t_conf))))
-		set_error("Error malloc in config_world", 1);
+	conf = (t_conf *)init_pointer(sizeof(t_conf),
+		"Error malloc in config_default (conf)");
 	conf->world = config_default_world();
 	conf->camera = config_default_cam();
 	conf->color = config_default_color();
-	proj = NULL;
-	if (!(proj = (t_proj *)malloc(sizeof(t_proj))))
-		set_error("Error malloc in config_world", 1);
-	proj->val = FDF_PROJ_VAL;
-	proj->col = FDF_PROJ_COL;
-	conf->proj = proj;
+	conf->proj = (t_proj *)init_pointer(sizeof(t_proj),
+		"Error malloc in config_default (proj)");
+	conf->proj->val = FDF_P_VAL;
+	conf->proj->col = FDF_P_COL;
 	return (conf);
 }

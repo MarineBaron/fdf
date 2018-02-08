@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbaron <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/04 09:43:44 by mbaron            #+#    #+#             */
-/*   Updated: 2017/12/21 09:17:56 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/07 12:53:54 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static char		*mba_create_word(char const *s, char c, size_t index)
 	char	*word;
 	size_t	i;
 
+	word = NULL;
 	if (!(word = (char *)malloc(sizeof(char)
 					* mba_count_letters(s, c, index) + 1)))
 		return (NULL);
