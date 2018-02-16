@@ -6,7 +6,7 @@
 #    By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/08 14:19:31 by mbaron            #+#    #+#              #
-#    Updated: 2018/02/07 17:28:39 by mbaron           ###   ########.fr        #
+#    Updated: 2018/02/15 18:39:28 by mbaron           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,12 +43,16 @@ SRCS			=		$(DIR_SRCS)/main.c					\
 						$(DIR_SRCS)/config.c				\
 						$(DIR_SRCS)/config_file.c			\
 						$(DIR_SRCS)/config_default.c		\
+						$(DIR_SRCS)/config_params.c			\
 						$(DIR_SRCS)/config_map.c			\
-						$(DIR_SRCS)/config_control.c		\
-						$(DIR_SRCS)/config_control_helper.c	\
+						$(DIR_SRCS)/config_map_create.c		\
+						$(DIR_SRCS)/put_control_init.c		\
+						$(DIR_SRCS)/put_params.c		\
 						$(DIR_SRCS)/img_control.c			\
 						$(DIR_SRCS)/img_map.c				\
+						$(DIR_SRCS)/matrix.c				\
 						$(DIR_SRCS)/hooks.c					\
+						$(DIR_SRCS)/bresemham.c				\
 						$(DIR_SRCS)/utils.c					\
 						$(DIR_SRCS)/error.c
 

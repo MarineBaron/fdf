@@ -6,94 +6,62 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/08 11:31:17 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/08 14:02:04 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/16 18:10:24 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <math.h>
+#include "fdf.h"
 
-double deg2rad(int	deg)
+static double	deg2rad(int deg)
 {
-	return ((double)deg * M_PI ? 180.0);
+	return ((double)deg * M_PI / 180.0);
 }
 
-void rotMatrix(t_vertex *v, int	deg, int axis)
+static void		rot_matrix(t_vertex *v, int deg)
 {
 	double		rot;
 	t_vertex	tmp;
-	
+
 	rot = deg2rad(deg);
 	ft_memcpy(&tmp, v, sizeof(t_vertex));
-	if (axis == 3)
-	{
-		v->x = (tmp.x * cos(rot) - tmp.y * sin(rot));
-		v->y = (tmp.x * sin(rot) + tmp.y * cos(rot));
-	}
-	else if (axis == 2)
-	{
-		v->z = (tmp.z * cos(rot) - tmp.x * sin(rot));
-		v->x = (tmp.z * sin(rot) + tmp.x * cos(rot));
-	}
-	else if (axis == 1)
-	{
-		v->y = (tmp.y * cos(rot) - tmp.z * sin(rot));
-		v->z = (tmp.y * sin(rot) + tmp.z * cos(rot));
-	}
+	v->x = (tmp.x * cos(rot) - tmp.y * sin(rot));
+	v->y = (tmp.x * sin(rot) + tmp.y * cos(rot));
 }
 
-void transMatrix(t_vertex *v, int x, int y, int z)
+static void		trans_matrix(t_conf *conf, t_vertex *v, double x, double y)
 {
 	t_vertex	tmp;
-	
+
 	ft_memcpy(&tmp, v, sizeof(t_vertex));
-	v->x = tmp.x - (double)x;
-	v->y = tmp.y - (double)y;
-	v->z = tmp.y - (double)z;
+	v->x = tmp.x - x;
+	v->y = tmp.y - y;
 }
 
-void scaleMatrix(t_vertex *v, int zoom)
-{
-	t_vertex	tmp;
-	
-	ft_memcpy(&tmp, v, sizeof(t_vertex));
-	v->x = tmp.x * 100.0 ? (1.0 + (double)zoom);
-	v->y = tmp.y * 100.0 ? (1.0 + (double)zoom);
-	v->z = tmp.y * 100.0 ? (1.0 + (double)zoom);
-}
-
-void	model2world(t_conf *conf, t_vertex *v)
+void			model2view(t_conf *conf, t_vertex *v)
 {
 	t_world		*c;
-	
-	w = conf->world;
-	if (w->zoom != 99)
-		scaleMatrix(t_vertex *v, int c->zoom);
-	transMatrix(v, c->x, c->y, c->z);
-	rotMatrix(v, rot, 3);
+
+	c = conf->world;
+	if (c->x + c->y)
+		trans_matrix(conf, v, (double)c->x, (double)c->y);
+	if (c->rot != 0)
+		rot_matrix(v, c->rot);
 }
 
-void 	world2view(t_conf *conf, t_vertex *v)
-{
-	t_cam		*c;
-	
-	c = conf->cam;
-	transMatrix(v, c->x, c->y, c->z);
-	rotMatrix(v, c->rx, 1);
-	rotMatrix(v, c->ry, 2);
-	rotMatrix(v, c->rz, 3);
-}
-
-void 	view2proj(t_conf *conf, t_vertex *v)
+void		view2proj(t_conf *conf, t_vertex *v)
 {
 	t_vertex	tmp;
-	
+
 	if (conf->proj->val == 1)
 	{
 		ft_memcpy(&tmp, v, sizeof(t_vertex));
-		v->x = tmp.x * FDF_MAP_W / 2
-			- tmp.y	* FDF_MAP_W / 2;
-		v->y = tmp.x * FDF_MAP_H / 2
-			+ tmp.y * FDF_MAP_H / 2
-			+ tmp.z * (conf->z + 1) / 100;
+		v->x = (double)(FDF_MAP_X)
+			+ (double)(FDF_MAP_W) / 2.0f
+			+ tmp.x * conf->map->scale * (double)conf->world->zoom
+			+ tmp.y * conf->map->scale * (double)conf->world->zoom / sqrt(2.0f);
+		v->y = (double)(FDF_MAP_Y)
+			+ (double)(FDF_MAP_H) / 2.0f
+			- tmp.y * conf->map->scale * (double)conf->world->zoom / sqrt(2.0f)
+			- tmp.z;
 	}
 }

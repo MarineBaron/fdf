@@ -6,12 +6,12 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/04 09:13:51 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/08 08:24:13 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/15 15:30:51 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
+/*
 void		set_txt_control_value(t_conf *conf)
 {
 	int		i;
@@ -56,33 +56,35 @@ void		set_txt_control(t_conf *conf)
 	}
 }
 
-static void	set_img_button(t_conf *conf, t_rect **buttons)
+static void	set_img_button(t_conf *conf, t_button **buttons)
 {
-	int		l;
+	int		w;
+	int		h;
+
+	buttons[0]->img = mlx_xpm_file_to_image(conf->mlx,
+		"./buttons/minus.xpm", &w, &h);
+	buttons[1]->img = mlx_xpm_file_to_image(conf->mlx,
+		"./buttons/plus.xpm", &w, &h);
+}
+
+void		set_buttons_imgs(t_conf *conf)
+{
 	int		i;
 	int		j;
-	char	*ptr;
-	int		col;
 
-	col = FDF_CL_TXT2_COLOR;
-	l = buttons[0]->w / 4;
 	i = -1;
-	while (++i < 2)
+	while (++i < 3)
 	{
-		j = l;
-		ptr = conf->ptr + (buttons[i]->y + 2 * l) * conf->sl
-			+ buttons[i]->x * conf->bpp;
-		while (++j < 3 * l)
-			ft_memcpy(ptr + j * conf->bpp, &col, conf->bpp);
-		if (i & 1)
+		j = -1;
+		while (++j < conf->control[i]->p_nb)
 		{
-			j = l;
-			ptr = conf->ptr + buttons[i]->y * conf->sl
-				+ (buttons[i]->x + 2 * l) * conf->bpp;
-			while (++j < 3 * l)
-				ft_memcpy(ptr + j * conf->sl, &col, conf->bpp);
+			if ()
+			mlx_put_image_to_window(conf->mlx, conf->win, conf->control[i]->params[j]->buttons[0]->img, conf->control[i]->params[j]->buttons[0]->rect->x, conf->control[i]->params[j]->buttons[0]->rect->y);
+			mlx_put_image_to_window(conf->mlx, conf->win, conf->control[i]->params[j]->buttons[1]->img, conf->control[i]->params[j]->buttons[1]->rect->x, conf->control[i]->params[j]->buttons[1]->rect->y);
 		}
 	}
+	
+	
 }
 
 void		set_img_control_value(t_conf *conf)
@@ -111,9 +113,10 @@ void		set_img_control(t_conf *conf)
 		while (++j < conf->control[i]->p_nb)
 		{
 			fill_rect(conf, conf->control[i]->params[j]->pos_param);
-			fill_rect(conf, conf->control[i]->params[j]->buttons[0]);
-			fill_rect(conf, conf->control[i]->params[j]->buttons[1]);
+			fill_rect(conf, conf->control[i]->params[j]->buttons[0]->rect);
+			fill_rect(conf, conf->control[i]->params[j]->buttons[1]->rect);
 			set_img_button(conf, conf->control[i]->params[j]->buttons);
 		}
 	}
 }
+*/

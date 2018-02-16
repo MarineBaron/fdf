@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 12:14:47 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/07 19:26:15 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/16 17:11:16 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@ int				test_args(int argc, char *argv[])
 	return (1);
 }
 
+int	get_grad_col(int co, int cd, double p)
+{
+	if (co == cd)
+		return (co);
+	return ((int)((double)co + ((double)cd - (double)(co)) * p));
+}
+
 unsigned int	ft_atoi_hex(char *str)
 {
 	int				i;
@@ -51,22 +58,22 @@ unsigned int	ft_atoi_hex(char *str)
 	return (value);
 }
 
-void			fill_rect(t_conf *conf, t_rect *rect)
+void			fill_rect(t_img *img, t_rect *rect)
 {
 	int		i;
 	int		j;
 	char	*ptr;
 
-	ptr = conf->ptr;
+	ptr = img->ptr;
 	i = -1;
 	while (++i < rect->h)
 	{
-		ptr = conf->ptr + (((rect->y + i) * conf->sl) + rect->x * conf->bpp);
+		ptr = img->ptr + (((rect->y + i) * img->sl) + rect->x * img->bpp);
 		j = -1;
 		while (++j < rect->w)
 		{
-			ft_memcpy(ptr, (void *)&rect->c_bg, conf->bpp);
-			ptr += conf->bpp;
+			ft_memcpy(ptr, (void *)&rect->c_bg, img->bpp);
+			ptr += img->bpp;
 		}
 	}
 }

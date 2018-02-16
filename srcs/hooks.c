@@ -6,16 +6,41 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/06 16:19:14 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/08 09:18:00 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/16 18:40:31 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+int	value_add(t_conf *conf, int i)
+{
+	int		val;
+
+	val = *(conf->control->params[i]->value);
+	if (i == 3)
+		render(conf, i, (val + 1) % 360);
+	else if (val < conf->control->params[i]->max - 1)
+		render(conf, i, val + 1);
+	return (0);
+}
+
+int	value_sub(t_conf *conf, int i)
+{
+	int		val;
+
+	val = *(conf->control->params[i]->value);
+	if (i == 3)
+		render(conf, i, (val - 1) % 360);
+	else if (val > conf->control->params[i]->min + 1)
+		render(conf, i, val - 1);
+	return (0);
+}
+
 int		hook_key(int key, t_conf *conf)
 {
 	int		i;
 	int		j;
+	int		new;
 
 	ft_putstr("key pressed : ");
 	ft_putnbr(key);
@@ -23,46 +48,20 @@ int		hook_key(int key, t_conf *conf)
 	if (key == KEY_ESCAPE)
 		exit(EXIT_SUCCESS);
 	i = -1;
-	while (++i < 3)
+	while (++i < conf->control->nb)
 	{
-		j = -1;
-		while (++j < conf->control[i]->p_nb)
-		{
-			if (key == conf->control[i]->params[j]->kup
-				&& *(conf->control[i]->params[j]->value)
-				< conf->control[i]->params[j]->max - 1)
-			{
-				ft_putstr("add : ");
-				ft_putendl(conf->control[i]->params[j]->name);
-				*(conf->control[i]->params[j]->value) += 1;
-				render(conf);
-				return (0);
-			}
-			if (key == conf->control[i]->params[j]->kdwn
-				&& *(conf->control[i]->params[j]->value)
-				> conf->control[i]->params[j]->min)
-			{
-				ft_putstr("sub : ");
-				ft_putendl(conf->control[i]->params[j]->name);
-				*(conf->control[i]->params[j]->value) -= 1;
-				render(conf);
-				return (0);
-			}
-		}
+		if (key == conf->control->params[i]->kup)
+			return (value_add(conf, i));
+		if (key == conf->control->params[i]->kdn)
+			return (value_sub(conf, i));
 	}
 	return (0);
-}
-
-static int		is_inrect(t_rect *rect, int x, int y)
-{
-	return (x >= rect->x && x <= rect->x + rect->w
-				&& y >= rect->y && y <= rect->y + rect->h);
 }
 
 int		hook_mouse(int button, int x, int y, t_conf *conf)
 {
 	int		i;
-	int		j;
+	int		top;
 
 	ft_putstr("mouse button : ");
 	ft_putnbr(button);
@@ -73,32 +72,21 @@ int		hook_mouse(int button, int x, int y, t_conf *conf)
 	ft_putendl("");
 	if (button == 1)
 	{
-		i = -1;
-		while (++i < 3)
+		if ((x > FDF_CL_C1_X && x < FDF_CL_C1_X + FDF_CL_C_W)
+			|| (x > FDF_CL_C2_X && x < FDF_CL_C2_X + FDF_CL_C_W))
 		{
-			j = -1;
-			while (++j < conf->control[i]->p_nb)
+			y = FDF_CL_Y + FDF_CL_H + FDF_CL_MARGE;
+			i = -1;
+			while (++i < conf->control->nb)
 			{
-				if (is_inrect(conf->control[i]->params[j]->buttons[1], x, y)
-					&& *(conf->control[i]->params[j]->value)
-					< conf->control[i]->params[j]->max - 1)
+				if (y > top && y < top + FDF_CL_C_H)
 				{
-					ft_putstr("add : ");
-					ft_putendl(conf->control[i]->params[j]->name);
-					*(conf->control[i]->params[j]->value) += 1;
-					render(conf);
-					return (0);
+					if (x > FDF_CL_C1_X && x < FDF_CL_C1_X + FDF_CL_C_W)
+						return (value_add(conf, i));
+					else
+						return (value_sub(conf, i));
 				}
-				if (is_inrect(conf->control[i]->params[j]->buttons[0], x, y)
-					&& *(conf->control[i]->params[j]->value)
-					> conf->control[i]->params[j]->min)
-				{
-					ft_putstr("sub : ");
-					ft_putendl(conf->control[i]->params[j]->name);
-					*(conf->control[i]->params[j]->value) -= 1;
-					render(conf);
-					return (0);
-				}
+				y += FDF_CL_H;
 			}
 		}
 	}

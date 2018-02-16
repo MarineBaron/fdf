@@ -6,65 +6,59 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 17:59:37 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/07 19:41:52 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/15 15:37:28 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "config.h"
 
-static t_world	*config_default_world(void)
+static void	config_set_params_pos_v(t_rect *rect, int y)
 {
-	t_world	*world;
-
-	world = (t_world *)init_pointer(sizeof(t_world),
-		"Error malloc in config_default_world");
-	world->zoom = FDF_W_ZOOM;
-	world->x = FDF_W_X;
-	world->y = FDF_W_Y;
-	world->z = FDF_W_Z;
-	world->rot = FDF_W_ROT;
-	return (world);
+	rect = (t_rect *)init_pointer(sizeof(t_rect),
+		"Error malloc in config_set_params_pos (pos_v)");
+	rect->x = FDF_CL_V_X;
+	rect->y = y;
+	rect->w = 2 * FDF_CL_C_W;
+	rect->h = FDF_CL_C_H;
+	rect->c_bg = FDF_CL_BG_COLOR;
+	rect->c_bd = FDF_CL_BD_COLOR;
 }
 
-static t_cam	*config_default_cam(void)
+static void	config_set_params_pos_button(t_rect *rect, int y, int i)
 {
-	t_cam	*cam;
-
-	cam = (t_cam *)init_pointer(sizeof(t_cam),
-		"Error malloc in config_default_cam");
-	cam->x = FDF_C_X;
-	cam->y = FDF_C_Y;
-	cam->z = FDF_C_Z;
-	cam->rx = FDF_C_RX;
-	cam->ry = FDF_C_RY;
-	cam->rz = FDF_C_RZ;
-	return (cam);
+	rect = (t_rect *)init_pointer(sizeof(t_rect),
+		"Error malloc in config_set_params_pos (buttons[i])");
+	rect->x = i ? FDF_CL_C2_X : FDF_CL_C1_X;
+	rect->y = y;
+	rect->w = FDF_CL_C_W;
+	rect->h = FDF_CL_C_H;
+	rect->c_bg = FDF_CL_BTN1_COLOR;
+	rect->c_bd = FDF_CL_BD_COLOR;
 }
 
-static t_colc	*config_default_color(void)
+void		config_set_params(t_conf *conf, t_param **ps)
 {
-	t_colc	*col;
+	int		y;
+	int		i;
+	int		j;
 
-	col = (t_colc *)init_pointer(sizeof(t_colc),
-		"Error malloc in config_default_color");
-	col->floor = (t_col)FDF_COL_FLOOR;
-	col->ceil = (t_col)FDF_COL_CEIL;
-	return (col);
-}
-
-t_conf			*config_default(void)
-{
-	t_conf	*conf;
-
-	conf = (t_conf *)init_pointer(sizeof(t_conf),
-		"Error malloc in config_default (conf)");
-	conf->world = config_default_world();
-	conf->camera = config_default_cam();
-	conf->color = config_default_color();
-	conf->proj = (t_proj *)init_pointer(sizeof(t_proj),
-		"Error malloc in config_default (proj)");
-	conf->proj->val = FDF_P_VAL;
-	conf->proj->col = FDF_P_COL;
-	return (conf);
+	i = -1;
+	while (++i < conf->control->nb)
+	{
+		ps[i] = (t_param *)init_pointer(sizeof(t_param),
+		"Error malloc in config_default (params[i])");
+		y = FDF_CL_X + (i + 1) * FDF_CL_H + FDF_CL_MARGE;
+		config_set_params_pos_v(ps[i]->pos_v, i);
+		ps[i]->buttons = (t_rect **)init_pointer(
+			2 * sizeof(t_rect *),
+			"Error malloc in config_set_params_pos (buttons)");
+		j = -1;
+		while (++j < 2)
+			config_set_params_pos_button(ps[i]->buttons[j], y, j);
+	}
+	config_set_params_name(ps);
+	config_set_params_value(conf->control, ps);
+	config_set_params_minmax(ps);
+	config_set_params_keys(ps);
 }

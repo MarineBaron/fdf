@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/07 08:33:34 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/08 08:42:25 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/14 12:51:15 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,9 @@ static void	config_control_set_pos_param(t_param *param, t_rect *rect,
 	ft_memcpy(param->pos_value, button, sizeof(t_rect));
 	button->c_bg = FDF_CL_BTN1_COLOR;
 	button->x = FDF_CL_C1_X;
-	ft_memcpy(param->buttons[0], button, sizeof(t_rect));
+	ft_memcpy(param->buttons[0]->rect, button, sizeof(t_rect));
 	button->x = FDF_CL_C2_X;
-	ft_memcpy(param->buttons[1], button, sizeof(t_rect));
+	ft_memcpy(param->buttons[1]->rect, button, sizeof(t_rect));
 }
 
 void		config_control_set_pos(t_conf *conf)

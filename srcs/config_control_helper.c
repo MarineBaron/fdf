@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/07 09:25:34 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/08 08:20:31 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/14 12:43:16 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,24 @@ static t_param	*config_control_init_param(void)
 		"Malloc Echec (cc->params[i]->pos_param)");
 	param->pos_value = (t_rect *)init_pointer(sizeof(t_rect),
 		"Malloc Echec (cc->params[i]->pos_value)");
+		/*
 	param->buttons = (t_rect **)init_pointer(2 * sizeof(t_rect *),
 			"Malloc Echec (cc->params[i]->buttons[0])");
 	param->buttons[0] = (t_rect *)init_pointer(sizeof(t_rect),
 		"Malloc Echec (cc->params[i]->buttons[0])");
 	param->buttons[1] = (t_rect *)init_pointer(sizeof(t_rect),
 		"Malloc Echec (cc->params[i]->buttons[1])");
+		*/
+		param->buttons = (t_button **)init_pointer(2 * sizeof(t_button *),
+				"Malloc Echec (cc->params[i]->buttons)");
+		param->buttons[0] = (t_button *)init_pointer(sizeof(t_button),
+			"Malloc Echec (cc->params[i]->buttons[0])");
+		param->buttons[1] = (t_button *)init_pointer(sizeof(t_button),
+			"Malloc Echec (cc->params[i]->buttons[1])");
+		param->buttons[0]->rect = (t_rect *)init_pointer(sizeof(t_rect),
+			"Malloc Echec (cc->params[i]->buttons[0])");
+		param->buttons[1]->rect = (t_rect *)init_pointer(sizeof(t_rect),
+			"Malloc Echec (cc->params[i]->buttons[1])");
 	return (param);
 }
 

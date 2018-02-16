@@ -3,52 +3,29 @@
 ## MAP CONFIG
 ## -------------
 ## define height & width for the map's representation
-## the window will be larger du ti the control zone
+## the window will be larger due to the control zone
 
-# map.h 1000
-# map.w 1000
+# h 1000
+# w 1000
 
 ## CONTROL CONFIG
 ## -------------
-## define height & width for the map's representation
-## the window will be larger due to the control zone
 
-## wor contains params for the world
-## - zoom (o), x & y must be between 1 and 100
-## - rot must be between -180 and 180
+## x, y = position on the map (% 1-100)
+## z = ratio between z and x (1 - 10000)
+## r = rotation (deg)
+## o = zoom (1 is the whole map)
+## p = projection (1, 2, 3)
+## g = color Gradient
+## c = ceil color
+## f = floor color
 
-# wor.o 50
-# wor.x 50
-# wor.y 50
-# wor.z 50
-# wor.r 0
-
-## cam contains params for the camera position and direction
-## - x & y must be between 0 and 199
-## - z must be between 0 and 999
-## - rotx must be between 90 and 180
-## - roty must be between 0 and 180
-## - rotz must be between 0 and 180
-
-# cam.x 49
-# cam.y 0
-# cam.z 999
-# cam.a 90
-# cam.b 90
-# cam.c 90
-
-## pro contains params for the projection and colors
-## v = 1 is orthogonal
-## v = 2 is isometric
-## v = 3 is circulaire
-
-# pro.v 1
-
-## c/0/1 contains params for the colors
-## pro.c define if the next colors are read
-## pro.0 is floor's colors in hex RGB
-## pro.1 is floor's colors in hex RGB
-
-# pro.c 1
-# pro.0 0x000000
-# pro.1 0x000000
+# x 50
+# y 50
+# z 100
+# r 0
+# o 50
+# p 1
+# g 1
+# c 0x000000
+# f 0x000000
