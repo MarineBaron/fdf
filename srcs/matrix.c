@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/08 11:31:17 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/08 14:02:04 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/08 17:04:00 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void rotMatrix(t_vertex *v, int	deg, int axis)
 {
 	double		rot;
 	t_vertex	tmp;
-	
+
 	rot = deg2rad(deg);
 	ft_memcpy(&tmp, v, sizeof(t_vertex));
 	if (axis == 3)
@@ -44,7 +44,7 @@ void rotMatrix(t_vertex *v, int	deg, int axis)
 void transMatrix(t_vertex *v, int x, int y, int z)
 {
 	t_vertex	tmp;
-	
+
 	ft_memcpy(&tmp, v, sizeof(t_vertex));
 	v->x = tmp.x - (double)x;
 	v->y = tmp.y - (double)y;
@@ -54,17 +54,17 @@ void transMatrix(t_vertex *v, int x, int y, int z)
 void scaleMatrix(t_vertex *v, int zoom)
 {
 	t_vertex	tmp;
-	
+
 	ft_memcpy(&tmp, v, sizeof(t_vertex));
-	v->x = tmp.x * 100.0 ? (1.0 + (double)zoom);
-	v->y = tmp.y * 100.0 ? (1.0 + (double)zoom);
-	v->z = tmp.y * 100.0 ? (1.0 + (double)zoom);
+	v->x = tmp.x * 100.0 / (1.0 + (double)zoom);
+	v->y = tmp.y * 100.0 / (1.0 + (double)zoom);
+	v->z = tmp.y * 100.0 / (1.0 + (double)zoom);
 }
 
-void	model2world(t_conf *conf, t_vertex *v)
+void	model2view(t_conf *conf, t_vertex *v)
 {
 	t_world		*c;
-	
+
 	w = conf->world;
 	if (w->zoom != 99)
 		scaleMatrix(t_vertex *v, int c->zoom);
@@ -72,21 +72,10 @@ void	model2world(t_conf *conf, t_vertex *v)
 	rotMatrix(v, rot, 3);
 }
 
-void 	world2view(t_conf *conf, t_vertex *v)
-{
-	t_cam		*c;
-	
-	c = conf->cam;
-	transMatrix(v, c->x, c->y, c->z);
-	rotMatrix(v, c->rx, 1);
-	rotMatrix(v, c->ry, 2);
-	rotMatrix(v, c->rz, 3);
-}
-
 void 	view2proj(t_conf *conf, t_vertex *v)
 {
 	t_vertex	tmp;
-	
+
 	if (conf->proj->val == 1)
 	{
 		ft_memcpy(&tmp, v, sizeof(t_vertex));
