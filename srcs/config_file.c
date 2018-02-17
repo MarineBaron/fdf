@@ -6,76 +6,66 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 15:37:12 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/07 18:29:43 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/15 15:11:51 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "config.h"
 
-static void	config_world(t_conf *conf, char *param_name, int value)
-{
-	if (param_name[4] == 'x')
-		conf->world->x = value;
-	else if (param_name[4] == 'y')
-		conf->world->y = value;
-	else if (param_name[4] == 'z')
-		conf->world->z = value;
-	else if (param_name[4] == 's')
-		conf->world->zoom = value;
-	else if (param_name[4] == 'r')
-		conf->world->rot = value;
-}
-
-static void	config_cam(t_conf *conf, char *param_name, int value)
-{
-	if (param_name[4] == 'x')
-		conf->camera->x = value;
-	else if (param_name[4] == 'y')
-		conf->camera->y = value;
-	else if (param_name[4] == 'z')
-		conf->camera->z = value;
-	else if (param_name[4] == 'a')
-		conf->camera->rx = value;
-	else if (param_name[4] == 'b')
-		conf->camera->ry = value;
-	else if (param_name[4] == 'c')
-		conf->camera->rz = value;
-}
-
-static void	config_proj(t_conf *conf, char *param_name, int value)
-{
-	if (param_name[4] == 'v')
-		conf->proj->val = value;
-	else if (param_name[4] == 'c')
-		conf->proj->col = value;
-	else if (param_name[4] == '0')
-		conf->color->floor = value;
-	else if (param_name[4] == '1')
-		conf->color->ceil = value;
-}
-
-void		config_file_line(t_conf *conf, char *line)
+static void		config_file_line(t_conf *conf, char *line)
 {
 	char	**params;
 
-	params = NULL;
 	if (!(params = ft_strsplit(line, ' ')))
 		set_error("Malloc error in config_file_line", 1);
-	if (1 < ft_strsplitnb(params) && params[0][0] && params[0][0] != '#')
+	if (2 == ft_strsplitnb(params) && params[0][0] && params[0][0] != '#')
 	{
-		if (ft_strlen(params[0]) == 5 && params[0][4] == '.')
-		{
-			if (params[0][0] == 'w')
-				config_world(conf, params[0], ft_atoi(params[1]));
-			else if (params[0][0] == 'c')
-				config_cam(conf, params[0], ft_atoi(params[1]));
-			else if (params[0][0] == 'p')
-				config_proj(conf, params[0],
-					(params[0][4] == 'v' || params[0][4] == 'c')
-					? (unsigned int)ft_atoi(params[1])
-					: ft_atoi_hex(params[1]));
-		}
+		if (params[0][0] == 'x')
+			conf->control->x = ft_atoi(params[1]);
+		else if (params[0][0] == 'y')
+			conf->control->y = ft_atoi(params[1]);
+		else if (params[0][0] == 'z')
+			conf->control->z = ft_atoi(params[1]);
+		else if (params[0][0] == 'r')
+			conf->control->rot = ft_atoi(params[1]);
+		else if (params[0][0] == 'o')
+			conf->control->zoom = ft_atoi(params[1]);
+		else if (params[0][0] == 'p')
+			conf->control->proj = ft_atoi(params[1]);
+		else if (params[0][0] == 'g')
+			conf->control->col = ft_atoi(params[1]);
+		else if (params[0][0] == 'f')
+			conf->control->floor = ft_atoi_hex(params[1]);
+		else if (params[0][0] == 'c')
+			conf->control->ceil = ft_atoi_hex(params[1]);
 	}
 	ft_strsplitdel(params);
+}
+
+void		config_file(t_conf *conf, int argc, char *argv[])
+{
+	int		fd;
+	char	*line;
+	int		gnl;
+	char	stre[256];
+	int		is_config;
+
+	is_config = is_param("-f", argc, argv);
+	stre[0] = '\0';
+	ft_strclr(stre);
+	if (0 > (fd = open(is_config ? argv[is_config] :
+		CONFIG_FILE_DEFAULT, O_RDONLY)))
+		set_error(ft_strcat(ft_strncpy(stre, is_config
+			? argv[is_config]
+			: CONFIG_FILE_DEFAULT, 252), " : "), 1);
+	if (!(line = ft_strnew(0)))
+		set_error("Malloc error in config_file", 1);
+	while ((gnl = get_next_line(fd, &line)))
+	{
+		if (-1 == gnl)
+			set_error("Error in GNL", 1);
+		config_file_line(conf, line);
+	}
+	ft_strdel(&line);
 }
