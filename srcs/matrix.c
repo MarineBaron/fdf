@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/08 11:31:17 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/17 09:14:11 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/17 09:30:35 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static void		trans_matrix(t_conf *conf, t_vertex *v, double x, double y)
 	v->x = tmp.x - x;
 	v->y = tmp.y - y;
 }
+
 
 void			model2view(t_conf *conf, t_vertex *v)
 {

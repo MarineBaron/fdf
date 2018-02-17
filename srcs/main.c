@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 09:24:52 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/16 18:20:53 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/17 09:19:31 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	destroy_img(t_conf *conf, t_img *img)
 static t_img	*init_img(t_conf *conf, int w, int h)
 {
 	t_img  *img;
-	
+
 	img = (t_img *)init_pointer(sizeof(t_img),
 		"init_img");
 	if (!img->img && !(img->img = mlx_new_image(conf->mlx, w, h)))
@@ -106,7 +106,7 @@ static void	render_init(t_conf *conf)
 void	clear_screen(t_conf *conf)
 {
 	t_rect *rect;
-	
+
 	rect = get_rect(0, 0, conf->i_value->w, conf->i_value->h);
 	rect->c_bg = FDF_CL_BG_COLOR;
 	fill_rect(conf->i_value, rect);
@@ -124,7 +124,7 @@ void	render(t_conf *conf, int c_index, int new)
 		render_init(conf);
 		put_control_init(conf);
 		destroy_img(conf, conf->i_control);
-		
+
 	}
 	clear_screen(conf);
 	put_control_values(conf);

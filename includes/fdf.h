@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 09:23:07 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/16 17:33:31 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/17 09:24:01 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,15 +121,15 @@ void					set_txt_control(t_conf *conf);
 void					set_txt_control_value(t_conf *conf);
 void					set_buttons_imgs(t_conf *conf);
 void					set_img_clear(t_conf *conf);
-void					set_img_map(t_conf *conf);
+void					set_img_map(t_conf *conf, int index, int new);
 void					model2view(t_conf *conf, t_vertex *v);
 void					view2proj(t_conf *conf, t_vertex *v);
-void					render(t_conf *conf);
+void					render(t_conf *conf, int c_index, int new);
 t_rect					*get_rect(int x, int y, int w, int h);
 void					put_rect_win(void *img, t_rect *rect);
 void					clear_screen(t_conf *conf);
 void					put_control_values(t_conf *conf);
-void					put_line(t_conf *conf, t_vector *v);
+void					put_line(t_conf *conf, t_vertex *v1, t_vertex *v2);
 int						hook_key(int key, t_conf *conf);
 int						hook_mouse(int button, int x, int y, t_conf *conf);
 void					destroy_img(t_conf *conf, t_img *img);

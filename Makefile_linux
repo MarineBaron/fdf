@@ -39,18 +39,22 @@ HEADERS			=		-I$(DIR_HEADERS)			\
 						-I$(DIR_MLX_HEADERS)		\
 						-I$(INC)
 
-SRCS			=		$(DIR_SRCS)/main.c					\
-						$(DIR_SRCS)/config.c				\
-						$(DIR_SRCS)/config_file.c			\
-						$(DIR_SRCS)/config_default.c		\
-						$(DIR_SRCS)/config_map.c			\
-						$(DIR_SRCS)/config_control.c		\
-						$(DIR_SRCS)/config_control_helper.c	\
-						$(DIR_SRCS)/img_control.c			\
-						$(DIR_SRCS)/img_map.c				\
-						$(DIR_SRCS)/hooks.c					\
-						$(DIR_SRCS)/utils.c					\
-						$(DIR_SRCS)/error.c
+	SRCS			=		$(DIR_SRCS)/main.c					\
+							$(DIR_SRCS)/config.c				\
+							$(DIR_SRCS)/config_file.c			\
+							$(DIR_SRCS)/config_default.c		\
+							$(DIR_SRCS)/config_params.c			\
+							$(DIR_SRCS)/config_map.c			\
+							$(DIR_SRCS)/config_map_create.c		\
+							$(DIR_SRCS)/put_control_init.c		\
+							$(DIR_SRCS)/put_params.c			\
+							$(DIR_SRCS)/img_control.c			\
+							$(DIR_SRCS)/img_map.c				\
+							$(DIR_SRCS)/matrix.c				\
+							$(DIR_SRCS)/hooks.c					\
+							$(DIR_SRCS)/bresemham.c				\
+							$(DIR_SRCS)/utils.c					\
+							$(DIR_SRCS)/error.c
 
 OBJS			=		$(SRCS:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/04 09:15:57 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/16 18:48:34 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/17 09:29:23 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,31 +36,30 @@ void			set_img_map_vectors(t_conf *conf)
 static t_col	map_get_color_gradient(t_conf *conf, double z)
 {
 	double		p;
-	t_colc		*col;
 	int			r;
 	int			g;
 	int			b;
 
-	col = conf->color;
 	if (z == conf->mapi->hmin)
-		return (col->floor);
+		return (conf->control->floor);
 	if (z == conf->mapi->hmax)
-		return (col->ceil);
+		return (conf->control->ceil);
 	p = (z - conf->mapi->hmin) / (conf->mapi->hmax - conf->mapi->hmin);
-	r = get_grad_col(col->floor >> 16, col->ceil >> 16, p);
-	b = get_grad_col((col->floor >> 8) & 0xFF, (col->ceil >> 8) & 0xFF, p);
-	g = get_grad_col(col->floor & 0xFF, col->ceil & 0xFF, p);
+	r = get_grad_col(conf->control->floor >> 16,
+		conf->control->ceil >> 16, p);
+	b = get_grad_col((conf->control->floor >> 8) & 0xFF,
+		(conf->control->ceil >> 8) & 0xFF, p);
+	g = get_grad_col(conf->control->floor & 0xFF,
+		conf->control->ceil & 0xFF, p);
 	return ((r << 16) | (b << 8) | g);
 }
 
-void			set_img_map(t_conf *conf)
+void			set_img_map(t_conf *conf, int index, int new)
 {
 	int			i;
 	int			j;
 	t_vertex	*v;
-	t_vector	*vector;
 
-	
 	i = -1;
 	while (++i < conf->mapi->h)
 	{
@@ -75,5 +74,5 @@ void			set_img_map(t_conf *conf)
 			view2proj(conf, v);
 		}
 	}
-	set_img_map_vectors(conf, vector);
+	set_img_map_vectors(conf);
 }
