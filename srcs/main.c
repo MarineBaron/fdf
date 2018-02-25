@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 09:24:52 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/17 09:19:31 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/17 15:12:00 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,14 @@ static void	destroy_control(t_conf *conf)
 	i = -1;
 	while (++i < conf->control->nb)
 	{
-		p = conf->control->params[i];
+		p = conf->control[i];
 		ft_memdel((void **)&p->name);
 		ft_memdel((void **)&p->pos_v);
 		ft_memdel((void **)&p->buttons[0]);
 		ft_memdel((void **)&p->buttons[1]);
 		ft_memdel((void **)&p->buttons);
 	}
+	ft_memdel((void **)&conf->control->v);
 	ft_memdel((void **)&conf->control);
 }
 
@@ -92,11 +93,11 @@ static void	render_init(t_conf *conf)
 	conf->i_control = (t_img *)init_pointer(sizeof(t_img),
 		"Error malloc in config_default (i_control)");
 	conf->i_map = (t_img *)init_pointer(sizeof(t_img),
-		"Error malloc in config_default (i_control)");
+		"Error malloc in config_default (i_map)");
 	conf->i_value = (t_img *)init_pointer(sizeof(t_img),
-		"Error malloc in config_default (i_control)");
+		"Error malloc in config_default (i_value)");
 	conf->i_btn = (t_img *)init_pointer(sizeof(t_img),
-		"Error malloc in config_default (i_control)");
+		"Error malloc in config_default (i_btn)");
 	conf->i_map = init_img(conf, FDF_MAP_W, FDF_MAP_H);
 	conf->i_control = init_img(conf, FDF_CL_W, FDF_CL_HT);
 	conf->i_value = init_img(conf, FDF_CL_C_W * 2, FDF_CL_HT);

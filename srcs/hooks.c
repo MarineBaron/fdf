@@ -16,10 +16,10 @@ int	value_add(t_conf *conf, int i)
 {
 	int		val;
 
-	val = *(conf->control->params[i]->value);
+	val = *(conf->control[i]->value);
 	if (i == 3)
 		render(conf, i, (val + 1) % 360);
-	else if (val < conf->control->params[i]->max - 1)
+	else if (val < conf->control[i]->max - 1)
 		render(conf, i, val + 1);
 	return (0);
 }
@@ -28,10 +28,10 @@ int	value_sub(t_conf *conf, int i)
 {
 	int		val;
 
-	val = *(conf->control->params[i]->value);
+	val = *(conf->control[i]->value);
 	if (i == 3)
 		render(conf, i, (val - 1) % 360);
-	else if (val > conf->control->params[i]->min + 1)
+	else if (val > conf->control[i]->min + 1)
 		render(conf, i, val - 1);
 	return (0);
 }
@@ -50,9 +50,9 @@ int		hook_key(int key, t_conf *conf)
 	i = -1;
 	while (++i < conf->control->nb)
 	{
-		if (key == conf->control->params[i]->kup)
+		if (key == conf->control[i]->kup)
 			return (value_add(conf, i));
-		if (key == conf->control->params[i]->kdn)
+		if (key == conf->control[i]->kdn)
 			return (value_sub(conf, i));
 	}
 	return (0);

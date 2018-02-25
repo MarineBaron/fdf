@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 09:23:07 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/17 09:24:01 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/17 11:10:16 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,18 @@ typedef struct			s_rect
 	t_col	c_bg;
 	t_col	c_bd;
 }						t_rect;
+typedef struct			s_values
+{
+	int			x;
+	int			y;
+	int			z;
+	int			rot;
+	int			zoom;
+	int			proj;
+	int			col;
+	int			floor;
+	int			ceil;
+}						t_values;
 typedef struct			s_param
 {
 	char		*name;
@@ -73,16 +85,9 @@ typedef struct			s_control
 {
 	char		*title;
 	int			nb;
-	int			x;
-	int			y;
-	int			z;
-	int			rot;
-	int			zoom;
-	int			proj;
-	int			col;
-	int			floor;
-	int			ceil;
-	t_param		**params;
+	t_values	v;
+	t_values	n;
+	t_param		**p;
 }						t_control;
 typedef struct			s_map
 {
@@ -104,8 +109,8 @@ typedef struct			s_conf
 {
 	t_control	*control;
 	t_mapi		*mapi;
-	t_map		*map;
-	t_map		*screen;
+	t_map		*mapt;
+	t_map		*maps;
 	void		*mlx;
 	void		*win;
 	t_img		*i_map;

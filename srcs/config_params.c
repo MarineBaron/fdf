@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 12:29:12 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/15 15:39:28 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/17 10:24:18 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 void	config_set_params_value(t_control *c, t_param **ps)
 {
-	ps[0]->value = &(c->x);
-	ps[1]->value = &(c->y);
-	ps[2]->value = &(c->z);
-	ps[3]->value = &(c->rot);
-	ps[4]->value = &(c->zoom);
-	ps[5]->value = &(c->proj);
-	ps[6]->value = &(c->col);
-	ps[7]->value = &(c->floor);
-	ps[8]->value = &(c->ceil);
+	ps[0]->value = &(c->v->x);
+	ps[1]->value = &(c->v->y);
+	ps[2]->value = &(c->v->z);
+	ps[3]->value = &(c->v->rot);
+	ps[4]->value = &(c->v->zoom);
+	ps[5]->value = &(c->v->proj);
+	ps[6]->value = &(c->v->col);
+	ps[7]->value = &(c->v->floor);
+	ps[8]->value = &(c->v->ceil);
 }
 
 void	config_set_params_name(t_param **ps)

@@ -105,7 +105,7 @@ void		put_control_init(t_conf *conf)
 	{
 		mlx_string_put(conf->mlx, conf->win,
 			FDF_CL_X + FDF_CL_MARGE, y,
-			FDF_CL_TXT1_COLOR, conf->control->params[i]->name);
+			FDF_CL_TXT1_COLOR, conf->control[i]->name);
 		y += FDF_CL_H;
 	}
 }

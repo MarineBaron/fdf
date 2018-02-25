@@ -17,29 +17,29 @@ static t_param	*config_control_init_param(void)
 	t_param *param;
 
 	param = (t_param *)init_pointer(sizeof(t_param),
-		"Malloc Echec (cc->params[i]->pos_param)");
+		"Malloc Echec (cc[i]->pos_param)");
 	param->pos_param = (t_rect *)init_pointer(sizeof(t_rect),
-		"Malloc Echec (cc->params[i]->pos_param)");
+		"Malloc Echec (cc[i]->pos_param)");
 	param->pos_value = (t_rect *)init_pointer(sizeof(t_rect),
-		"Malloc Echec (cc->params[i]->pos_value)");
+		"Malloc Echec (cc[i]->pos_value)");
 		/*
 	param->buttons = (t_rect **)init_pointer(2 * sizeof(t_rect *),
-			"Malloc Echec (cc->params[i]->buttons[0])");
+			"Malloc Echec (cc[i]->buttons[0])");
 	param->buttons[0] = (t_rect *)init_pointer(sizeof(t_rect),
-		"Malloc Echec (cc->params[i]->buttons[0])");
+		"Malloc Echec (cc[i]->buttons[0])");
 	param->buttons[1] = (t_rect *)init_pointer(sizeof(t_rect),
-		"Malloc Echec (cc->params[i]->buttons[1])");
+		"Malloc Echec (cc[i]->buttons[1])");
 		*/
 		param->buttons = (t_button **)init_pointer(2 * sizeof(t_button *),
-				"Malloc Echec (cc->params[i]->buttons)");
+				"Malloc Echec (cc[i]->buttons)");
 		param->buttons[0] = (t_button *)init_pointer(sizeof(t_button),
-			"Malloc Echec (cc->params[i]->buttons[0])");
+			"Malloc Echec (cc[i]->buttons[0])");
 		param->buttons[1] = (t_button *)init_pointer(sizeof(t_button),
-			"Malloc Echec (cc->params[i]->buttons[1])");
+			"Malloc Echec (cc[i]->buttons[1])");
 		param->buttons[0]->rect = (t_rect *)init_pointer(sizeof(t_rect),
-			"Malloc Echec (cc->params[i]->buttons[0])");
+			"Malloc Echec (cc[i]->buttons[0])");
 		param->buttons[1]->rect = (t_rect *)init_pointer(sizeof(t_rect),
-			"Malloc Echec (cc->params[i]->buttons[1])");
+			"Malloc Echec (cc[i]->buttons[1])");
 	return (param);
 }
 
@@ -55,11 +55,11 @@ t_control		*config_control_init_pointers(const char *title, int nb)
 		set_error("Malloc Echec (cc->title)", 1);
 	cc->pos_title = (t_rect *)init_pointer(sizeof(t_rect),
 		"Malloc Echec (cc->pos_title)");
-	cc->params = (t_param **)init_pointer(nb * sizeof(t_param *),
-		"Malloc Echec (cc->params)");
+	cc = (t_param **)init_pointer(nb * sizeof(t_param *),
+		"Malloc Echec (cc)");
 	i = -1;
 	while (++i < nb)
-		cc->params[i] = config_control_init_param();
+		cc[i] = config_control_init_param();
 	return (cc);
 }
 

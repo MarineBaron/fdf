@@ -25,10 +25,10 @@ void		set_txt_control_value(t_conf *conf)
 		{
 			if (!(i == 2 && j > 1))
 				mlx_string_put(conf->mlx, conf->win,
-					conf->control[i]->params[j]->pos_value->x + FDF_CL_MARGE,
-					conf->control[i]->params[j]->pos_value->y + FDF_CL_MARGE,
+					conf->control[i][j]->pos_value->x + FDF_CL_MARGE,
+					conf->control[i][j]->pos_value->y + FDF_CL_MARGE,
 					FDF_CL_TXT1_COLOR,
-					ft_itoa(*(conf->control[i]->params[j]->value)));
+					ft_itoa(*(conf->control[i][j]->value)));
 		}
 	}
 }
@@ -49,9 +49,9 @@ void		set_txt_control(t_conf *conf)
 		while (++j < conf->control[i]->p_nb)
 		{
 			mlx_string_put(conf->mlx, conf->win,
-				conf->control[i]->params[j]->pos_param->x + FDF_CL_MARGE,
-				conf->control[i]->params[j]->pos_param->y + FDF_CL_MARGE,
-				FDF_CL_TXT1_COLOR, conf->control[i]->params[j]->name);
+				conf->control[i][j]->pos_param->x + FDF_CL_MARGE,
+				conf->control[i][j]->pos_param->y + FDF_CL_MARGE,
+				FDF_CL_TXT1_COLOR, conf->control[i][j]->name);
 		}
 	}
 }
@@ -79,8 +79,8 @@ void		set_buttons_imgs(t_conf *conf)
 		while (++j < conf->control[i]->p_nb)
 		{
 			if ()
-			mlx_put_image_to_window(conf->mlx, conf->win, conf->control[i]->params[j]->buttons[0]->img, conf->control[i]->params[j]->buttons[0]->rect->x, conf->control[i]->params[j]->buttons[0]->rect->y);
-			mlx_put_image_to_window(conf->mlx, conf->win, conf->control[i]->params[j]->buttons[1]->img, conf->control[i]->params[j]->buttons[1]->rect->x, conf->control[i]->params[j]->buttons[1]->rect->y);
+			mlx_put_image_to_window(conf->mlx, conf->win, conf->control[i][j]->buttons[0]->img, conf->control[i][j]->buttons[0]->rect->x, conf->control[i][j]->buttons[0]->rect->y);
+			mlx_put_image_to_window(conf->mlx, conf->win, conf->control[i][j]->buttons[1]->img, conf->control[i][j]->buttons[1]->rect->x, conf->control[i][j]->buttons[1]->rect->y);
 		}
 	}
 	
@@ -94,9 +94,9 @@ void		set_img_control_value(t_conf *conf)
 	j = 1;
 	while (++j < conf->control[2]->p_nb)
 	{
-		conf->control[2]->params[j]->pos_value->c_bg = (j == 2)
+		conf->control[2][j]->pos_value->c_bg = (j == 2)
 			? conf->color->floor : conf->color->ceil;
-		fill_rect(conf, conf->control[2]->params[j]->pos_value);
+		fill_rect(conf, conf->control[2][j]->pos_value);
 	}
 }
 
@@ -112,10 +112,10 @@ void		set_img_control(t_conf *conf)
 		j = -1;
 		while (++j < conf->control[i]->p_nb)
 		{
-			fill_rect(conf, conf->control[i]->params[j]->pos_param);
-			fill_rect(conf, conf->control[i]->params[j]->buttons[0]->rect);
-			fill_rect(conf, conf->control[i]->params[j]->buttons[1]->rect);
-			set_img_button(conf, conf->control[i]->params[j]->buttons);
+			fill_rect(conf, conf->control[i][j]->pos_param);
+			fill_rect(conf, conf->control[i][j]->buttons[0]->rect);
+			fill_rect(conf, conf->control[i][j]->buttons[1]->rect);
+			set_img_button(conf, conf->control[i][j]->buttons);
 		}
 	}
 }

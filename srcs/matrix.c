@@ -6,11 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/08 11:31:17 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/17 09:30:35 by mbaron           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
->>>>>>> 7f0721cc6eebfde493494beb89cc130647ddd8d6
+/*   Updated: 2018/02/17 15:12:03 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,51 +17,72 @@ static double	deg2rad(int deg)
 	return ((double)deg * M_PI / 180.0);
 }
 
-static void		rot_matrix(t_vertex *v, int deg)
+double			get_scale(t_conf *conf, int proj)
 {
-	double		rot;
-	t_vertex	tmp;
+	double		scale;
 
-	rot = deg2rad(deg);
-	ft_memcpy(&tmp, v, sizeof(t_vertex));
-	v->x = (tmp.x * cos(rot) - tmp.y * sin(rot));
-	v->y = (tmp.x * sin(rot) + tmp.y * cos(rot));
-}
-
-static void		trans_matrix(t_conf *conf, t_vertex *v, double x, double y)
-{
-	t_vertex	tmp;
-	ft_memcpy(&tmp, v, sizeof(t_vertex));
-	v->x = tmp.x - x;
-	v->y = tmp.y - y;
-}
-
-
-void			model2view(t_conf *conf, t_vertex *v)
-{
-	t_world		*c;
-
-	c = conf->world;
-	if (c->x + c->y)
-		trans_matrix(conf, v, (double)c->x, (double)c->y);
-	if (c->rot != 0)
-		rot_matrix(v, c->rot);
-}
-
-void		view2proj(t_conf *conf, t_vertex *v)
-{
-	t_vertex	tmp;
-
-	if (conf->proj->val == 1)
+	if (proj == 1)
 	{
-		ft_memcpy(&tmp, v, sizeof(t_vertex));
-		v->x = (double)(FDF_MAP_X)
-			+ (double)(FDF_MAP_W) / 2.0f
-			+ tmp.x * conf->map->scale * (double)conf->world->zoom
-			+ tmp.y * conf->map->scale * (double)conf->world->zoom / sqrt(2.0f);
-		v->y = (double)(FDF_MAP_Y)
-			+ (double)(FDF_MAP_H) / 2.0f
-			- tmp.y * conf->map->scale * (double)conf->world->zoom / sqrt(2.0f)
-			- tmp.z;
+		return (fmin
+			(double)(FDF_MAP_W)
+				/ ((double)conf->mapi->h / sqrt(2.0f) + (double)conf->mapi->w),
+				(double)(FDF_MAP_H) / (double)conf->mapi->h / sqrt(2.0f)
+		);
+	}
+}
+
+void			model2view(t_conf *conf, t_vertex *v, double matrix[2][4])
+{
+	t_vertex	tmp;
+
+	ft_memcpy(&tmp, v, sizeof(t_vertex));
+	v->x = matrix[0][0] * tmp->x + matrix[0][1] * tmp->y;
+	v->y = matrix[0][2] * tmp->x + matrix[0][3] * tmp->y;
+	ft_memcpy(&tmp, v, sizeof(t_vertex));
+	v->x = matrix[1][0] * tmp->x;
+	v->y = matrix[1][4] * tmp->y;
+}
+
+void calc_coord(t_conf *conf, double scale, t_vertex *v)
+{
+
+	if (!(conf->maps->vertexes[i][j]))
+		conf->maps->vertexes[i][j] = (ini_pointer(sizeof(t_vertexes),
+			"Malloc error in calc_coord"));
+	ft_memcpy(conf->maps->vertexes[i][j], v, sizeof(t_vertexes));
+	conf->maps->vertexes[i][j]->x = (double)(FDF_MAP_X)
+		+ (double)(FDF_MAP_W) / 2.0f
+		+ v.x * scale + v.y * scale / sqrt(2.0f);
+	conf->maps->vertexes[i][j]->y = (double)(FDF_MAP_Y)
+		+ (double)(FDF_MAP_H) / 2.0f
+		- tmp.y * scale / sqrt(2.0f) - tmp.z;
+}
+
+void		view2proj(t_conf *conf, int proj)
+{
+	int			i;
+	int			j;
+	double		scale;
+	double		max_x;
+	double		max_y;
+
+	scale = get_scale(conf, proj);
+	max_x = (double)(FDF_MAP_W) / ((double)conf->mapi->h / sqrt(2.0f)
+		+ (double)conf->mapi->w);
+	max_y = (double)(FDF_MAP_H) / (double)conf->mapi->h / sqrt(2.0f));
+	i = -1;
+	while (++i < conf->mapi->h)
+	{
+		j = -1;
+		while (++j < conf->mapi->w)
+		{
+			if (abs(conf->mapt->vertexes[i][j]->x - conf->control->v->x)
+				* scale < max_x
+				&& abs(conf->mapt->vertexes[i][j]->y - conf->control->v->y)
+					* scale	< max_y)
+				calc_coord(conf, scale, v);
+			else
+				ft_mendel((void **)&(conf->maps->vertexes[i][j]))
+		}
 	}
 }

@@ -34,8 +34,8 @@ static void	set_limits(t_conf *conf)
 	}
 	conf->control->x = (double)conf->mapi->w / 2.0f;
 	conf->control->y = (double)conf->mapi->h / 2.0f;
-	conf->control->params[0]->max = conf->mapi->w;
-	conf->control->params[1]->max = conf->mapi->h;
+	conf->control[0]->max = conf->mapi->w;
+	conf->control[1]->max = conf->mapi->h;
 }
 
 static void	mapi_create(t_conf *conf, t_lstmapi *lstmapi)

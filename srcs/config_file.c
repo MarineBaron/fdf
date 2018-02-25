@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 15:37:12 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/15 15:11:51 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/17 10:25:00 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,23 @@ static void		config_file_line(t_conf *conf, char *line)
 	if (2 == ft_strsplitnb(params) && params[0][0] && params[0][0] != '#')
 	{
 		if (params[0][0] == 'x')
-			conf->control->x = ft_atoi(params[1]);
+			conf->control->v->x = ft_atoi(params[1]);
 		else if (params[0][0] == 'y')
-			conf->control->y = ft_atoi(params[1]);
+			conf->control->v->y = ft_atoi(params[1]);
 		else if (params[0][0] == 'z')
-			conf->control->z = ft_atoi(params[1]);
+			conf->control->v->z = ft_atoi(params[1]);
 		else if (params[0][0] == 'r')
-			conf->control->rot = ft_atoi(params[1]);
+			conf->control->v->rot = ft_atoi(params[1]);
 		else if (params[0][0] == 'o')
-			conf->control->zoom = ft_atoi(params[1]);
+			conf->control->v->zoom = ft_atoi(params[1]);
 		else if (params[0][0] == 'p')
-			conf->control->proj = ft_atoi(params[1]);
+			conf->control->v->proj = ft_atoi(params[1]);
 		else if (params[0][0] == 'g')
-			conf->control->col = ft_atoi(params[1]);
+			conf->control->v->col = ft_atoi(params[1]);
 		else if (params[0][0] == 'f')
-			conf->control->floor = ft_atoi_hex(params[1]);
+			conf->control->v->floor = ft_atoi_hex(params[1]);
 		else if (params[0][0] == 'c')
-			conf->control->ceil = ft_atoi_hex(params[1]);
+			conf->control->v->ceil = ft_atoi_hex(params[1]);
 	}
 	ft_strsplitdel(params);
 }

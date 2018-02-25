@@ -24,7 +24,7 @@ void		put_control_values(t_conf *conf)
 	{
 		mlx_string_put(conf->mlx, conf->win,
 			FDF_CL_V_X, y, FDF_CL_TXT2_COLOR,
-			ft_itoa(*(conf->control->params[i]->value)));
+			ft_itoa(*(conf->control[i]->value)));
 		y += FDF_CL_H;
 	}
 	rect = get_rect(0, 0, conf->i_btn->w, conf->i_btn->h);
