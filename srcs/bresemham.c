@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/12 18:45:30 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/16 18:52:23 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/26 16:32:29 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ static void	put_pixel(t_conf *conf, int x, int y, t_vector *v)
 	int				b;
 	int				g;
 
-	if (x >= FDF_MAP_X && x <= FDF_MAP_X + FDF_MAP_W
-		&& y >= FDF_MAP_Y && y <= FDF_MAP_Y + FDF_MAP_H)
+	if (x <= FDF_MAP_W
+		&& y <= FDF_MAP_H)
 	{
 		if (v->o->x == v->d->x && v->o->y == v->d->y)
 			c = v->o->c;
@@ -36,8 +36,8 @@ static void	put_pixel(t_conf *conf, int x, int y, t_vector *v)
 			g = get_grad_col(v->o->c & 0xFF, v->d->c & 0xFF, p);
 			c = (r << 16) ^ (b << 8) ^ g;
 		}
-		ft_memcpy(conf->i_map->ptr + conf->i_map->sl * y
-			+ conf->i_map->bpp * x, &c, conf->i_map->bpp);
+		ft_memcpy(conf->i_map->ptr + conf->i_map->sl * (int)y
+			+ conf->i_map->bpp * (int)x, &c, conf->i_map->bpp);
 	}
 }
 
@@ -97,7 +97,7 @@ static void	put_line_ver(t_conf *conf, t_vector *v, int dx, int dy)
 	}
 }
 
-t_vector	*set_vector(t_vector *vector, t_vertex *v1, t_vertex *v2)
+t_vector	*set_vector(t_vertex *v1, t_vertex *v2)
 {
 	t_vector	*v;
 
@@ -105,14 +105,15 @@ t_vector	*set_vector(t_vector *vector, t_vertex *v1, t_vertex *v2)
 				"Malloc error in set_img_map");
 	if (v1->x == v2->x)
 	{
-		vector->o = (v2->y < v1->y) ? v2 : v1;
-		vector->d = (v2->y < v1->y) ? v1 : v2;
+		v->o = (v2->y < v1->y) ? v2 : v1;
+		v->d = (v2->y < v1->y) ? v1 : v2;
 	}
 	else
 	{
-		vector->o = (v2->x < v1->x) ? v2 : v1;
-		vector->d = (v2->x < v1->x) ? v1 : v2;
+		v->o = (v2->x < v1->x) ? v2 : v1;
+		v->d = (v2->x < v1->x) ? v1 : v2;
 	}
+	return (v);
 }
 
 static void	put_line_simple(t_conf *conf, t_vector *v, int dx, int dy)
@@ -141,11 +142,11 @@ static void	put_line_simple(t_conf *conf, t_vector *v, int dx, int dy)
 	}
 }
 
-void		put_line(t_conf *conf, t_vectex *v1, t_vectex *v2)
+void		put_line(t_conf *conf, t_vertex *v1, t_vertex *v2)
 {
 	int			dx;
 	int			dy;
-	t_vector	v;
+	t_vector	*v;
 
 	v = set_vector(v1, v2);
 	dx = v->d->x - v->o->x;

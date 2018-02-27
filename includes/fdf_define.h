@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 09:23:07 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/16 12:42:05 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/26 19:12:12 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@
 # define FDF_T_G "Color Gradient (0/1)"
 # define FDF_T_F "Floor's color"
 # define FDF_T_C "Ceil's color"
-# define FDF_P_X 50
-# define FDF_P_Y 50
-# define FDF_P_Z 1.0
+# define FDF_P_X 0
+# define FDF_P_Y 0
+# define FDF_P_Z 1
 # define FDF_P_O 1
 # define FDF_P_R 0
 # define FDF_P_P 1

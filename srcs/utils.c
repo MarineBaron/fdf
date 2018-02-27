@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 12:14:47 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/16 17:11:16 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/26 08:58:46 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int				test_args(int argc, char *argv[])
 	return (1);
 }
 
-int	get_grad_col(int co, int cd, double p)
+int				get_grad_col(int co, int cd, double p)
 {
 	if (co == cd)
 		return (co);

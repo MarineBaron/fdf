@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 17:59:37 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/15 15:37:28 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/26 18:38:39 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void		config_set_params(t_conf *conf, t_param **ps)
 			config_set_params_pos_button(ps[i]->buttons[j], y, j);
 	}
 	config_set_params_name(ps);
-	config_set_params_value(conf->control, ps);
 	config_set_params_minmax(ps);
 	config_set_params_keys(ps);
 }

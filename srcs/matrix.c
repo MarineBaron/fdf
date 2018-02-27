@@ -6,83 +6,108 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/08 11:31:17 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/17 15:12:03 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/27 17:41:26 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static double	deg2rad(int deg)
+double		deg2rad(int deg)
 {
 	return ((double)deg * M_PI / 180.0);
 }
 
-double			get_scale(t_conf *conf, int proj)
+void		get_scale(t_conf *conf)
 {
-	double		scale;
-
-	if (proj == 1)
+	if (conf->control->v->proj == 1)
 	{
-		return (fmin
+		conf->control->v->scale = fmin(
 			(double)(FDF_MAP_W)
-				/ ((double)conf->mapi->h / sqrt(2.0f) + (double)conf->mapi->w),
-				(double)(FDF_MAP_H) / (double)conf->mapi->h / sqrt(2.0f)
-		);
+				/ ((double)conf->mapi->h * (M_SQRT1_2) + (double)conf->mapi->w),
+				(double)(FDF_MAP_H) / (double)conf->mapi->h * (M_SQRT1_2));
 	}
 }
 
-void			model2view(t_conf *conf, t_vertex *v, double matrix[2][4])
+void			is_visible(t_conf *conf, t_vertex *v)
+{
+	if (conf->control->v->proj == 1)
+	{
+		v->visible = 0;
+		if (fabs(v->y * (M_SQRT1_2)
+			* conf->control->v->scale * (double)conf->control->v->zoom)
+			>= (double)(FDF_MAP_H) / 2.0 - (double)(FDF_MARGE))
+			return ;
+		if (fabs((v->x + v->y * (M_SQRT1_2))
+			* conf->control->v->scale * (double)conf->control->v->zoom)
+			>= (double)(FDF_MAP_W) / 2.0 - (double)(FDF_MARGE))
+			return ;
+	}
+	v->visible = 1;
+}
+
+void		model2view(t_conf *conf)
 {
 	t_vertex	tmp;
-
-	ft_memcpy(&tmp, v, sizeof(t_vertex));
-	v->x = matrix[0][0] * tmp->x + matrix[0][1] * tmp->y;
-	v->y = matrix[0][2] * tmp->x + matrix[0][3] * tmp->y;
-	ft_memcpy(&tmp, v, sizeof(t_vertex));
-	v->x = matrix[1][0] * tmp->x;
-	v->y = matrix[1][4] * tmp->y;
-}
-
-void calc_coord(t_conf *conf, double scale, t_vertex *v)
-{
-
-	if (!(conf->maps->vertexes[i][j]))
-		conf->maps->vertexes[i][j] = (ini_pointer(sizeof(t_vertexes),
-			"Malloc error in calc_coord"));
-	ft_memcpy(conf->maps->vertexes[i][j], v, sizeof(t_vertexes));
-	conf->maps->vertexes[i][j]->x = (double)(FDF_MAP_X)
-		+ (double)(FDF_MAP_W) / 2.0f
-		+ v.x * scale + v.y * scale / sqrt(2.0f);
-	conf->maps->vertexes[i][j]->y = (double)(FDF_MAP_Y)
-		+ (double)(FDF_MAP_H) / 2.0f
-		- tmp.y * scale / sqrt(2.0f) - tmp.z;
-}
-
-void		view2proj(t_conf *conf, int proj)
-{
 	int			i;
 	int			j;
-	double		scale;
-	double		max_x;
-	double		max_y;
+	double		**m;
 
-	scale = get_scale(conf, proj);
-	max_x = (double)(FDF_MAP_W) / ((double)conf->mapi->h / sqrt(2.0f)
-		+ (double)conf->mapi->w);
-	max_y = (double)(FDF_MAP_H) / (double)conf->mapi->h / sqrt(2.0f));
+	get_scale(conf);
+	m = conf->matrix;
 	i = -1;
 	while (++i < conf->mapi->h)
 	{
 		j = -1;
 		while (++j < conf->mapi->w)
 		{
-			if (abs(conf->mapt->vertexes[i][j]->x - conf->control->v->x)
-				* scale < max_x
-				&& abs(conf->mapt->vertexes[i][j]->y - conf->control->v->y)
-					* scale	< max_y)
-				calc_coord(conf, scale, v);
+			tmp = *(conf->mapi->vtx[i][j]);
+			conf->mapt->vtx[i][j]->x = tmp.x - m[1][0];
+			conf->mapt->vtx[i][j]->y = tmp.y - m[1][3];
+			ft_memcpy(&tmp, conf->mapt->vtx[i][j], sizeof(t_vertex));
+			conf->mapt->vtx[i][j]->x = m[0][0] * tmp.x + m[0][1] * tmp.y;
+			conf->mapt->vtx[i][j]->y = m[0][2] * tmp.x + m[0][3] * tmp.y;
+			is_visible(conf, conf->mapt->vtx[i][j]);
+		}
+	}
+}
+
+void	get_maps_vertex(t_conf *conf, t_vertex *vt, t_vertex *vs)
+{
+	ft_memcpy(vs, vt, sizeof(t_vertex));
+	if (conf->control->v->proj == 1)
+	{
+		vs->x = FDF_MARGE + (double)(FDF_MAP_W) / 2.0f
+			+ vt->x * conf->control->v->scale * (double)conf->control->v->zoom
+			+ vt->y * conf->control->v->scale
+			* (double)conf->control->v->zoom * (M_SQRT1_2);
+		vs->y = FDF_MARGE + (double)(FDF_MAP_H) / 2.0f
+			- vt->y * conf->control->v->scale
+				* (double)conf->control->v->zoom * (M_SQRT1_2)
+			- vt->z * (double)conf->control->v->z;
+	}
+}
+
+void		view2proj(t_conf *conf)
+{
+	int			i;
+	int			j;
+
+	i = -1;
+	while (++i < conf->mapi->h)
+	{
+		j = -1;
+		while (++j < conf->mapi->w)
+		{
+			if (conf->mapt->vtx[i][j]->visible)
+			{
+				if (!(conf->maps->vtx[i][j]))
+					conf->maps->vtx[i][j] = (init_pointer(sizeof(t_vertex),
+						"Malloc error in get_maps_vertex"));
+				get_maps_vertex(conf, conf->mapt->vtx[i][j],
+					conf->maps->vtx[i][j]);
+			}
 			else
-				ft_mendel((void **)&(conf->maps->vertexes[i][j]))
+				ft_memdel((void **)&(conf->maps->vtx[i][j]));
 		}
 	}
 }

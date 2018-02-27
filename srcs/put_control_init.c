@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 13:24:38 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/16 17:34:06 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/26 08:48:37 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void		put_control_init(t_conf *conf)
 	{
 		mlx_string_put(conf->mlx, conf->win,
 			FDF_CL_X + FDF_CL_MARGE, y,
-			FDF_CL_TXT1_COLOR, conf->control[i]->name);
+			FDF_CL_TXT1_COLOR, conf->control->p[i]->name);
 		y += FDF_CL_H;
 	}
 }
