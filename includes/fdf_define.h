@@ -6,13 +6,13 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 09:23:07 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/26 19:12:12 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/28 14:58:10 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_DEFINE_H
 # define FDF_DEFINE_H
-# define FDF_WIN_W 1500
+# define FDF_WIN_W 2000
 # define FDF_WIN_H 800
 # define FDF_MARGE 10
 # define FDF_CL_W 400

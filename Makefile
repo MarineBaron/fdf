@@ -6,7 +6,7 @@
 #    By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/08 14:19:31 by mbaron            #+#    #+#              #
-#    Updated: 2018/02/17 09:18:12 by mbaron           ###   ########.fr        #
+#    Updated: 2018/02/28 19:23:02 by mbaron           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,20 +41,26 @@ HEADERS			=		-I$(DIR_HEADERS)			\
 
 SRCS			=		$(DIR_SRCS)/main.c					\
 						$(DIR_SRCS)/config.c				\
-						$(DIR_SRCS)/config_file.c			\
 						$(DIR_SRCS)/config_default.c		\
-						$(DIR_SRCS)/config_params.c			\
+						$(DIR_SRCS)/config_file.c			\
 						$(DIR_SRCS)/config_map.c			\
 						$(DIR_SRCS)/config_map_create.c		\
+						$(DIR_SRCS)/render.c				\
 						$(DIR_SRCS)/put_control_init.c		\
-						$(DIR_SRCS)/put_params.c			\
-						$(DIR_SRCS)/img_control.c			\
-						$(DIR_SRCS)/img_map.c				\
+						$(DIR_SRCS)/put_control_params.c	\
+						$(DIR_SRCS)/put_map.c				\
+						$(DIR_SRCS)/polygone.c				\
+						$(DIR_SRCS)/put_lines.c				\
+						$(DIR_SRCS)/put_line.c				\
+						$(DIR_SRCS)/colors.c				\
+						$(DIR_SRCS)/model2proj.c			\
+						$(DIR_SRCS)/hooks_keyboard.c		\
+						$(DIR_SRCS)/hooks_mouse.c			\
+						$(DIR_SRCS)/actions.c			\
 						$(DIR_SRCS)/matrix.c				\
-						$(DIR_SRCS)/hooks.c					\
-						$(DIR_SRCS)/bresemham.c				\
-						$(DIR_SRCS)/utils.c					\
-						$(DIR_SRCS)/error.c
+						$(DIR_SRCS)/destroy.c				\
+						$(DIR_SRCS)/helper.c				\
+						$(DIR_SRCS)/helper_geom.c
 
 OBJS			=		$(SRCS:.c=.o)
 

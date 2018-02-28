@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 19:03:30 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/15 12:43:50 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/28 19:52:01 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,20 @@ static t_col	map_get_color(char *str)
 	return (col);
 }
 
-static void		map_add_vertex(t_lstmapi **p_lstmapi, double x, double y,
+static void		map_add_vertex(t_conf *conf, t_lstmapi **p_lstmapi, t_vtx v,
 	char *str)
 {
 	t_lstmapi	*tmp;
-	t_vertex	*vertex;
+	t_vtx		*vertex;
 
-	if (!(vertex = (t_vertex *)malloc(sizeof(t_vertex))))
-		set_error("Malloc error in map_add_vertex (vertex)", 1);
-	vertex->x = x;
-	vertex->y = y;
+	if (!(vertex = (t_vtx *)malloc(sizeof(t_vtx))))
+		set_error(conf, "ErrM map_add_vertex(vertex)", 1);
+	vertex->x = v.x;
+	vertex->y = v.y;
 	vertex->z = (double)ft_atoi(str);
 	vertex->c = map_get_color(str);
 	if (!(tmp = (t_lstmapi *)malloc(sizeof(t_lstmapi))))
-		set_error("Malloc error in map_add_vertex (tmp)", 1);
+		set_error(conf, "ErrM map_add_vertex(tmp)", 1);
 	tmp->vertex = vertex;
 	tmp->next = *p_lstmapi;
 	*p_lstmapi = tmp;
@@ -52,20 +52,23 @@ static void		map_init_line(t_conf *conf, char *line,
 	char		**nbrs;
 	int			i;
 	int			j;
+	t_vtx		v;
 
 	if (!(nbrs = ft_strsplit(line, ' ')))
-		set_error("Malloc error in map_init_line", 1);
+		set_error(conf, "ErrM map_init_line (line)", 1);
 	i = 0;
 	j = -1;
 	while (nbrs[++j])
 	{
-		map_add_vertex(lstmapi, (double)j, (double)conf->mapi->h, nbrs[j]);
+		v.x = (double)j;
+		v.y = (double)conf->mapi->h;
+		map_add_vertex(conf, lstmapi, v, nbrs[j]);
 		i++;
 	}
 	if (!conf->mapi->h)
 		conf->mapi->w = i;
 	else if (i != conf->mapi->w)
-		set_error("Map is invalid", 1);
+		set_error(conf, "Map is invalid !!!", 1);
 	conf->mapi->h += 1;
 	ft_strsplitdel(nbrs);
 }
@@ -78,14 +81,14 @@ void			map_parse_file(t_conf *conf, char *file)
 	t_lstmapi	*lstmapi;
 
 	if (0 > (fd = open(file, O_RDONLY)))
-		set_error("Open error on map file", 1);
+		set_error(conf, "Open error on map file", 1);
 	if (!(line = ft_strnew(0)))
-		set_error("Malloc error in map_parse_file", 1);
+		set_error(conf, "ErrM in map_parse_file", 1);
 	lstmapi = NULL;
 	while ((gnl = get_next_line(fd, &line)))
 	{
 		if (-1 == gnl)
-			set_error("Error in GNL", 1);
+			set_error(conf, "Error in GNL", 1);
 		map_init_line(conf, line, &lstmapi);
 	}
 	ft_strdel(&line);

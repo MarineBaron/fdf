@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 12:41:14 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/27 17:20:09 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/28 20:15:57 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,26 +43,33 @@ static void	mapi_create(t_conf *conf, t_lstmapi *lstmapi)
 	t_lstmapi	*tmp;
 	int			i;
 
-	conf->mapi->vtx = (t_vertex ***)init_pointer(
-		conf->mapi->h * sizeof(t_vertex **),
-		"Malloc error in map_create (vertexes)");
+	conf->mapi->vtx = (t_vtx ***)init_pointer(conf,
+		conf->mapi->h * sizeof(t_vtx **), "ErrM (mapi vtx)");
 	i = -1;
 	while (++i < conf->mapi->h)
 		conf->mapi->vtx[i] =
-			(t_vertex **)init_pointer(conf->mapi->w
-				* sizeof(t_vertex *),
-				"Malloc error in map_create (vertexes[i])");
+			(t_vtx **)init_pointer(conf, conf->mapi->w * sizeof(t_vtx *),
+				"ErrM (mapi vtx)");
 	tmp = lstmapi;
 	while (lstmapi)
 	{
-		tmp->vertex->y = (double)conf->mapi->h
-			- tmp->vertex->y - 1.0f;
-		conf->mapi->vtx[(int)tmp->vertex->y]
-			[(int)tmp->vertex->x] = tmp->vertex;
+		tmp->vertex->y = (double)conf->mapi->h - tmp->vertex->y - 1.0f;
+		conf->mapi->vtx[(int)tmp->vertex->y][(int)tmp->vertex->x] = tmp->vertex;
 		tmp = lstmapi->next;
 		ft_memdel((void **)&lstmapi);
 		lstmapi = tmp;
 	}
+	set_limits(conf);
+}
+
+static void	map_create_maps(t_conf *conf)
+{
+	conf->mapt = (t_map *)init_pointer(conf, sizeof(t_map), "ErrM (mapt)");
+	conf->mapt->vtx = (t_vtx ***)init_pointer(conf,
+		conf->mapi->h * sizeof(t_vtx **), "ErrM (mapi vtx)");
+	conf->maps = (t_map *)init_pointer(conf, sizeof(t_map), "ErrM (maps");
+	conf->maps->vtx = (t_vtx ***)init_pointer(conf,
+		conf->mapi->h * sizeof(t_vtx **), "ErrM (mapt vtx)");
 }
 
 void		map_create(t_conf *conf, t_lstmapi *lstmapi)
@@ -71,38 +78,22 @@ void		map_create(t_conf *conf, t_lstmapi *lstmapi)
 	int			j;
 
 	mapi_create(conf, lstmapi);
-	set_limits(conf);
-	conf->mapt = (t_map *)init_pointer(sizeof(t_map),
-		"Malloc error in map_create (conf->mapt)");
-	conf->mapt->vtx = (t_vertex ***)init_pointer(
-		conf->mapi->h * sizeof(t_vertex **),
-		"Malloc error in map_create (vertexes)");
-	conf->maps = (t_map *)init_pointer(sizeof(t_map),
-		"Malloc error in map_create (conf->maps)");
-	conf->maps->vtx = (t_vertex ***)init_pointer(
-		conf->mapi->h * sizeof(t_vertex **),
-		"Malloc error in map_create (vertexes)");
+	map_create_maps(conf);
 	i = -1;
 	while (++i < conf->mapi->h)
 	{
-		conf->mapt->vtx[i] = (t_vertex **)init_pointer(
-			conf->mapi->w * sizeof(t_vertex *),
-			"Malloc error in map_create (vertexes[i])");
-		conf->maps->vtx[i] = (t_vertex **)init_pointer(
-			conf->mapi->w * sizeof(t_vertex *),
-			"Malloc error in map_create (vertexes[i])");
+		conf->mapt->vtx[i] = (t_vtx **)init_pointer(conf,
+			conf->mapi->w * sizeof(t_vtx *), "ErrM (mapt vtx[i])");
+		conf->maps->vtx[i] = (t_vtx **)init_pointer(conf,
+			conf->mapi->w * sizeof(t_vtx *), "ErrM (maps vtx[i])");
 		j = -1;
 		while (++j < conf->mapi->w)
 		{
-			conf->mapt->vtx[i][j] = (t_vertex *)init_pointer(
-				conf->mapi->w * sizeof(t_vertex),
-				"Malloc error in map_create (vertexes[i][j])");
-			ft_memcpy(conf->mapt->vtx[i][j],
-				conf->mapi->vtx[i][j], sizeof(t_vertex));
+			conf->mapt->vtx[i][j] = (t_vtx *)init_pointer(conf,
+				conf->mapi->w * sizeof(t_vtx), "ErrM (mapt vtx[i][j])");
+			ft_memcpy(conf->mapt->vtx[i][j], conf->mapi->vtx[i][j],
+				sizeof(t_vtx));
 			conf->maps->vtx[i][j] = NULL;
 		}
 	}
-	conf->mapt->scale = fmin((double)(FDF_MAP_W)
-		/ ((double)conf->mapi->h * (M_SQRT1_2) + (double)conf->mapi->w),
-		(double)(FDF_MAP_H) / (double)conf->mapi->h * (M_SQRT1_2));
 }

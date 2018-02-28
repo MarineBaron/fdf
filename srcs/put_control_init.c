@@ -6,23 +6,11 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 13:24:38 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/26 08:48:37 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/28 19:54:28 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-t_rect		*get_rect(int x, int y, int w, int h)
-{
-	t_rect	*rect;
-
-	rect = (t_rect *)init_pointer(sizeof(t_rect), "Malloc error in get_rect");
-	rect->x = x;
-	rect->y = y;
-	rect->w = w;
-	rect->h = h;
-	return (rect);
-}
 
 static void	put_control_init_img_buttons_xpm(t_conf *conf, t_rect *rect,
 	char *url)
@@ -32,7 +20,7 @@ static void	put_control_init_img_buttons_xpm(t_conf *conf, t_rect *rect,
 	int		h;
 
 	if (!(img = mlx_xpm_file_to_image(conf->mlx, url, &w, &h)))
-		set_error("Echec in MLX buttons xpm (button)", 1);
+		set_error(conf, "Echec in MLX buttons xpm (button)", 1);
 	mlx_put_image_to_window(conf->mlx, conf->win, img,
 		FDF_CL_C_DEC + rect->x, FDF_CL_C_DEC + rect->y);
 	mlx_destroy_image(conf->mlx, img);

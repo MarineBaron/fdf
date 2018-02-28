@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 11:28:43 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/15 15:19:20 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/02/28 16:52:25 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,27 @@
 
 typedef struct	s_lstmapi
 {
-	t_vertex			*vertex;
+	t_vtx				*vertex;
 	struct s_lstmapi	*next;
 }				t_lstmapi;
-t_conf			*config_default(void);
-void			config_file(t_conf *conf, int argc, char *argv[]);
+/*
+**	File config.c
+*/
 int				is_param(const char *param, int argc, char *argv[]);
-int				test_args(int argc, char *argv[]);
-void			config_set_params_name(t_param **ps);
-void			config_set_params_value(t_control *c, t_param **ps);
-void			config_set_params_minmax(t_param **ps);
-void			config_set_params_keys(t_param **ps);
+/*
+**	File config_default.c
+*/
 void			config_set_params(t_conf *conf, t_param **ps);
+/*
+**	File config_file.c
+*/
+void			config_file(t_conf *conf, int argc, char *argv[]);
+/*
+**	File config_map.c
+*/
 void			map_parse_file(t_conf *conf, char *file);
+/*
+**	File config_map_create.c
+*/
 void			map_create(t_conf *conf, t_lstmapi *lstmapi);
 #endif
