@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 09:23:07 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/28 20:37:27 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/03/01 17:01:05 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include "fdf_define.h"
 
 typedef unsigned int	t_col;
-typedef	struct			s_vertex
+typedef	struct			s_vtx
 {
 	double	x;
 	double	y;
@@ -32,10 +32,16 @@ typedef	struct			s_vertex
 	double	visible;
 	t_col	c;
 }						t_vtx;
+typedef	struct			s_vtxi
+{
+	int		x;
+	int		y;
+	t_col	c;
+}						t_vtxi;
 typedef struct			s_vector
 {
-	t_vtx	*o;
-	t_vtx	*d;
+	t_vtxi	*o;
+	t_vtxi	*d;
 }						t_vector;
 typedef struct			s_mapi
 {
@@ -68,6 +74,7 @@ typedef struct			s_values
 	int			zoom;
 	double		scale;
 	int			proj;
+	int			blind;
 	int			col;
 	int			floor;
 	int			ceil;
@@ -96,7 +103,7 @@ typedef struct			s_map
 	double		scale;
 	t_vtx		***vtx;
 }						t_map;
-typedef struct	s_img
+typedef struct			s_img
 {
 	void	*img;
 	char	*ptr;
@@ -107,22 +114,24 @@ typedef struct	s_img
 	int		h;
 	int		*maxy;
 	int		*tmp_maxy;
-}				t_img;
-typedef struct	s_mouse
+}						t_img;
+typedef struct			s_mouse
 {
 	int			button;
 	int			x;
 	int			y;
-}				t_mouse;
-typedef struct	s_poly
+}						t_mouse;
+typedef struct			s_poly
 {
 	t_vtx			*vtx[4];
+	int				i;
+	int				j;
 	double			minx;
 	double			miny;
 	int				minsx;
 	int				maxsx;
 	struct s_poly	*next;
-}				t_poly;
+}						t_poly;
 typedef struct			s_conf
 {
 	t_control	*control;
@@ -140,19 +149,6 @@ typedef struct			s_conf
 	int			keypressed;
 	t_mouse		*mouse;
 }						t_conf;
-
-/*
-void					set_img_control(t_conf *conf);
-void					set_img_control_value(t_conf *conf);
-void					set_txt_control(t_conf *conf);
-void					set_txt_control_value(t_conf *conf);
-void					set_buttons_imgs(t_conf *conf);
-void					set_img_clear(t_conf *conf);
-void					put_rect_win(void *img, t_rect *rect);
-void					clear_screen(t_conf *conf);
-void					put_line2(t_conf *conf, t_vtx *v1, t_vtx *v2);
-*/
-
 /*
 **	File config.c
 */

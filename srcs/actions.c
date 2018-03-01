@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/06 16:19:14 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/28 20:28:22 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/03/01 08:49:28 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,13 @@ int		value_add(t_conf *conf, int i)
 		conf->control->n->zoom = conf->control->v->zoom + 1;
 	else if (i == 5 && conf->control->v->proj < 1)
 		conf->control->n->proj = conf->control->v->proj + 1;
-	else if (i == 6 && !conf->control->v->col)
+	else if (i == 6 && !conf->control->v->blind)
+		conf->control->n->blind = 1;
+	else if (i == 7 && !conf->control->v->col)
 		conf->control->n->col = 1;
-	else if (i == 7 && conf->control->v->floor < 0xFFFFFE)
+	else if (i == 8 && conf->control->v->floor < 0xFFFFFE)
 		conf->control->n->col = conf->control->v->floor + 1;
-	else if (i == 8 && conf->control->v->ceil < 0xFFFFFE)
+	else if (i == 9 && conf->control->v->ceil < 0xFFFFFE)
 		conf->control->n->col = conf->control->v->ceil + 1;
 	render(conf);
 	return (0);
@@ -46,11 +48,13 @@ int		value_sub(t_conf *conf, int i)
 		conf->control->n->zoom = conf->control->v->zoom - 1;
 	else if (i == 5 && conf->control->v->proj > 1)
 		conf->control->n->proj = conf->control->v->proj - 1;
-	else if (i == 6 && conf->control->v->col)
+	else if (i == 6 && conf->control->v->blind)
+		conf->control->n->blind = 0;
+	else if (i == 7 && conf->control->v->col)
 		conf->control->n->col = 0;
-	else if (i == 7 && conf->control->v->floor > 0x1)
+	else if (i == 8 && conf->control->v->floor > 0x1)
 		conf->control->n->col = conf->control->v->floor - 1;
-	else if (i == 8 && conf->control->v->ceil > 0x1)
+	else if (i == 9 && conf->control->v->ceil > 0x1)
 		conf->control->n->col = conf->control->v->ceil - 1;
 	render(conf);
 	return (0);

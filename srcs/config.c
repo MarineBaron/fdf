@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 10:29:08 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/28 20:35:50 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/03/01 10:30:20 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static t_conf	*config_default(void)
 	conf->control->v->col = FDF_P_G;
 	conf->control->v->floor = FDF_P_F;
 	conf->control->v->ceil = FDF_P_C;
+	conf->control->v->blind = FDF_P_B;
 	conf->control->p = (t_param **)init_pointer(conf,
 		conf->control->nb * sizeof(t_param *), "ErrM (params)");
 	config_set_params(conf, conf->control->p);

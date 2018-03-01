@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 17:59:37 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/28 19:58:46 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/03/01 09:12:55 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,13 @@ static void	config_set_params_name(t_conf *conf, t_param **ps)
 		set_error(conf, "ErrM (params name)", 1);
 	if (!(ps[5]->name = ft_strdup(FDF_T_P)))
 		set_error(conf, "ErrM (params name)", 1);
-	if (!(ps[6]->name = ft_strdup(FDF_T_G)))
+	if (!(ps[6]->name = ft_strdup(FDF_T_B)))
 		set_error(conf, "ErrM (params name)", 1);
-	if (!(ps[7]->name = ft_strdup(FDF_T_F)))
+	if (!(ps[7]->name = ft_strdup(FDF_T_G)))
 		set_error(conf, "ErrM (params name)", 1);
-	if (!(ps[8]->name = ft_strdup(FDF_T_C)))
+	if (!(ps[8]->name = ft_strdup(FDF_T_F)))
+		set_error(conf, "ErrM (params name)", 1);
+	if (!(ps[9]->name = ft_strdup(FDF_T_C)))
 		set_error(conf, "ErrM (params name)", 1);
 }
 
@@ -64,12 +66,14 @@ static void	config_set_params_keys(t_param **ps)
 	ps[4]->kup = FDF_KUP_O;
 	ps[5]->kdn = FDF_KDN_P;
 	ps[5]->kup = FDF_KUP_P;
-	ps[6]->kdn = FDF_KDN_G;
-	ps[6]->kup = FDF_KUP_G;
-	ps[7]->kdn = FDF_KDN_F;
-	ps[7]->kup = FDF_KUP_F;
-	ps[8]->kdn = FDF_KDN_C;
-	ps[8]->kup = FDF_KUP_C;
+	ps[6]->kdn = FDF_KDN_B;
+	ps[6]->kup = FDF_KUP_B;
+	ps[7]->kdn = FDF_KDN_G;
+	ps[7]->kup = FDF_KUP_G;
+	ps[8]->kdn = FDF_KDN_F;
+	ps[8]->kup = FDF_KUP_F;
+	ps[9]->kdn = FDF_KDN_C;
+	ps[9]->kup = FDF_KUP_C;
 }
 
 void		config_set_params(t_conf *conf, t_param **ps)

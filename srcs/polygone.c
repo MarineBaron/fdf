@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 15:27:46 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/28 20:21:27 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/03/01 19:01:46 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,8 @@ static t_poly	*polygone_ini(t_conf *conf, int i, int j)
 	poly->vtx[1] = conf->maps->vtx[i][j - 1];
 	poly->vtx[2] = conf->maps->vtx[i + 1][j - 1];
 	poly->vtx[3] = conf->maps->vtx[i + 1][j];
-	poly->minx = -DBL_MAX;
-	poly->minx = fmax(poly->minx, conf->mapt->vtx[i][j]->x);
-	poly->minx = fmax(poly->minx, conf->mapt->vtx[i + 1][j]->x);
-	poly->minx = fmax(poly->minx, conf->mapt->vtx[i + 1][j - 1]->x);
-	poly->minx = fmax(poly->minx, conf->mapt->vtx[i][j - 1]->x);
-	poly->miny = -DBL_MAX;
-	poly->miny = fmax(poly->miny, conf->mapt->vtx[i][j]->y);
-	poly->miny = fmax(poly->miny, conf->mapt->vtx[i + 1][j]->y);
-	poly->miny = fmax(poly->miny, conf->mapt->vtx[i + 1][j - 1]->y);
-	poly->miny = fmax(poly->miny, conf->mapt->vtx[i][j - 1]->y);
+	poly->i = i;
+	poly->j = j;
 	poly_set_limitx(poly);
 	return (poly);
 }
@@ -59,11 +51,59 @@ void			polygone_insert(t_conf *conf, int i, int j)
 	poly = polygone_ini(conf, i, j);
 	cur = conf->pls;
 	prec = NULL;
-	while (cur && (poly->miny > cur->miny
-			|| (poly->miny == cur->miny && poly->minx < cur->minx)))
+	if (conf->control->v->rot > 0 && conf->control->v->rot < 36)
 	{
-		prec = cur;
-		cur = cur->next;
+		while (cur && (poly->i > cur->i
+			|| (poly->i == cur->i && poly->j < cur->j)))
+		{
+			prec = cur;
+			cur = cur->next;
+		}
+	}
+	else if (conf->control->v->rot > 35 && conf->control->v->rot < 126)
+	{
+		while (cur && (poly->i > cur->i
+			|| (poly->i == cur->i && poly->j > cur->j)))
+		{
+			prec = cur;
+			cur = cur->next;
+		}
+	}
+	else if (conf->control->v->rot > 125 && conf->control->v->rot < 180)
+	{
+		while (cur && (poly->j > cur->j
+			|| (poly->j == cur->j && poly->i < cur->i)))
+		{
+			prec = cur;
+			cur = cur->next;
+		}
+	}
+	else if (conf->control->v->rot > 179 && conf->control->v->rot < 216)
+	{
+		while (cur && (poly->i < cur->i
+			|| (poly->i == cur->i && poly->j > cur->j)))
+		{
+			prec = cur;
+			cur = cur->next;
+		}
+	}
+	else if (conf->control->v->rot > 215 && conf->control->v->rot < 306)
+	{
+		while (cur && (poly->i < cur->i
+			|| (poly->i == cur->i && poly->j < cur->j)))
+		{
+			prec = cur;
+			cur = cur->next;
+		}
+	}
+	else if (conf->control->v->rot > 305 || conf->control->v->rot == 0)
+	{
+		while (cur && (poly->j < cur->j
+			|| (poly->j == cur->j && poly->i > cur->i)))
+		{
+			prec = cur;
+			cur = cur->next;
+		}
 	}
 	poly->next = cur;
 	if (prec)

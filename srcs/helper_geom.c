@@ -6,18 +6,18 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 12:14:47 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/28 20:03:13 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/03/01 10:39:25 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-double		deg2rad(int deg)
+double			deg2rad(int deg)
 {
 	return ((double)deg * M_PI / 180.0);
 }
 
-t_rect		*get_rect(int x, int y, int w, int h)
+t_rect			*get_rect(int x, int y, int w, int h)
 {
 	t_rect	*rect;
 
@@ -29,7 +29,7 @@ t_rect		*get_rect(int x, int y, int w, int h)
 	return (rect);
 }
 
-void		fill_rect(t_img *img, t_rect *rect)
+void			fill_rect(t_img *img, t_rect *rect)
 {
 	int		i;
 	int		j;
@@ -49,20 +49,35 @@ void		fill_rect(t_img *img, t_rect *rect)
 	}
 }
 
-t_vector	*set_vector(t_vtx *v1, t_vtx *v2)
+static t_vtxi	*trans_vtx(t_vtx *v)
+{
+	t_vtxi	*vi;
+
+	vi = (t_vtxi *)init_pointer(NULL, sizeof(t_vtxi), "ErrM (vtxi)");
+	vi->c = v->c;
+	vi->x = (int)floor(v->x + 0.5);
+	vi->y = (int)floor(v->y + 0.5);
+	return (vi);
+}
+
+t_vector		*set_vector(t_vtx *v1, t_vtx *v2)
 {
 	t_vector	*v;
+	t_vtxi		*vi1;
+	t_vtxi		*vi2;
 
-	v = (t_vector *)init_pointer(NULL, sizeof(t_vector), "ErrM (verctor)");
-	if (v1->x == v2->x)
+	vi1 = trans_vtx(v1);
+	vi2 = trans_vtx(v2);
+	v = (t_vector *)init_pointer(NULL, sizeof(t_vector), "ErrM (vector)");
+	if (vi1->x == vi2->x)
 	{
-		v->o = (v2->y < v1->y) ? v2 : v1;
-		v->d = (v2->y < v1->y) ? v1 : v2;
+		v->o = (vi2->y < vi1->y) ? vi2 : vi1;
+		v->d = (vi2->y < vi1->y) ? vi1 : vi2;
 	}
 	else
 	{
-		v->o = (v2->x < v1->x) ? v2 : v1;
-		v->d = (v2->x < v1->x) ? v1 : v2;
+		v->o = (vi2->x < vi1->x) ? vi2 : vi1;
+		v->d = (vi2->x < vi1->x) ? vi1 : vi2;
 	}
 	return (v);
 }

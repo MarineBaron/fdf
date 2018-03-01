@@ -6,12 +6,12 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/06 17:26:19 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/06 17:26:42 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/03/01 08:39:32 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MLX_KEYS_MACOS_H
-# define MLX_KEYS_MACOS_H
+#ifndef MLX_KEY_MACOS_H
+# define MLX_KEY_MACOS_H
 # define KEY_ESCAPE			53
 # define KEY_F1 			122
 # define KEY_F2				120
@@ -129,5 +129,4 @@
 # define KEY_PAD_ADD		69
 # define KEY_PAD_ENTER		76
 # define KEY_PAD_DOT		65
-
 #endif

@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 15:27:46 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/28 20:22:28 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/03/01 19:09:53 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,11 @@ void		put_polygones(t_conf *conf)
 {
 	t_poly	*cur;
 	int		k;
+	int		i;
 
 	polygones_set(conf);
 	cur = conf->pls;
+	i = 0;
 	while (cur)
 	{
 		k = -1;
@@ -66,6 +68,7 @@ void		put_polygones(t_conf *conf)
 		while (++k < conf->i_map->w)
 			conf->i_map->maxy[k] = conf->i_map->tmp_maxy[k];
 		cur = cur->next;
+		i++;
 	}
 	polygones_remove(conf);
 }

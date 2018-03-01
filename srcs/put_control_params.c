@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 18:15:54 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/28 19:56:34 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/03/01 08:51:56 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static char	*get_value(t_conf *conf, int i)
 	if (i == 5)
 		return (ft_itoa(c->n ? c->n->proj : c->v->proj));
 	if (i == 6)
+		return (ft_itoa(c->n ? c->n->blind : c->v->blind));
+	if (i == 7)
 		return (ft_itoa(c->n ? c->n->col : c->v->col));
 	return ("");
 }

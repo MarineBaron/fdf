@@ -6,13 +6,21 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/04 09:15:57 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/28 20:41:12 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/03/01 09:30:17 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void			put_map(t_conf *conf)
+static void	put_map_img(t_conf *conf, int blind)
+{
+	if (blind)
+		put_polygones(conf);
+	else
+		put_vectors(conf);
+}
+
+void		put_map(t_conf *conf)
 {
 	t_control *c;
 
@@ -35,7 +43,8 @@ void			put_map(t_conf *conf)
 		ft_memcpy(c->v, c->n, sizeof(t_values));
 		view2proj(conf);
 	}
+	else
+		ft_memcpy(c->v, c->n, sizeof(t_values));
 	set_colors(conf);
-	put_vectors(conf);
-	//put_polygones(conf);
+	put_map_img(conf, c->v->blind);
 }

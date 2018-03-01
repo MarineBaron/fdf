@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/12 18:45:30 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/28 18:43:48 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/03/01 19:07:15 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,21 @@ static void	put_pixel(t_conf *conf, int x, int y, t_vector *v)
 			c = v->o->c;
 		else
 		{
-			p = (v->o->x == v->d->x) ? (y - v->o->y) / (v->d->y - v->o->y)
-			: (x - v->o->x) / (v->d->x - v->o->x);
+			p = (abs(v->o->x - v->d->x) > abs(v->o->y - v->d->y))
+				? ((double)(x - v->o->x) / (double)(v->d->x - v->o->x))
+				: ((double)(y - v->o->y) / (double)(v->d->y - v->o->y));
 			c = (get_grad_col((v->o->c >> 16), (v->d->c >> 16), p) << 16)
 				^ (get_grad_col((v->o->c >> 8) & 0xFF,
 					(v->d->c >> 8) & 0xFF, p) << 8)
 				^ get_grad_col(v->o->c & 0xFF, v->d->c & 0xFF, p);
-			if ((int)y < conf->i_map->maxy[(int)x])
+			if (!conf->control->v->blind)
+				ft_memcpy(conf->i_map->ptr + conf->i_map->sl * y
+					+ conf->i_map->bpp * x, &c, conf->i_map->bpp);
+			else if (y < conf->i_map->maxy[x])
 			{
-				if ((int)y < conf->i_map->tmp_maxy[(int)x])
-					conf->i_map->tmp_maxy[(int)x] = (int)y;
-				ft_memcpy(conf->i_map->ptr + conf->i_map->sl * (int)y
-				+ conf->i_map->bpp * (int)x, &c, conf->i_map->bpp);
+				conf->i_map->tmp_maxy[x] = y;
+				ft_memcpy(conf->i_map->ptr + conf->i_map->sl * y
+					+ conf->i_map->bpp * x, &c, conf->i_map->bpp);
 			}
 		}
 	}
@@ -140,4 +143,7 @@ void		put_line(t_conf *conf, t_vtx *v1, t_vtx *v2)
 		put_line_hor(conf, v, dx, dy);
 	else
 		put_line_ver(conf, v, dx, dy);
+	ft_memdel((void **)&v->o);
+	ft_memdel((void **)&v->d);
+	ft_memdel((void **)&v);
 }

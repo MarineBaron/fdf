@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/01 15:37:12 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/28 19:51:30 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/03/01 08:41:36 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static void		config_file_line_set_param(t_conf *conf, char **params)
 		conf->control->v->floor = ft_atoi_hex(params[1]);
 	else if (params[0][0] == 'c')
 		conf->control->v->ceil = ft_atoi_hex(params[1]);
+	else if (params[0][0] == 'b')
+		conf->control->v->ceil = ft_atoi(params[1]);
 }
 
 static void		config_file_line(t_conf *conf, char *line)

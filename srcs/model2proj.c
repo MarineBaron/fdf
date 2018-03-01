@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/08 11:31:17 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/28 20:10:30 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/03/01 08:59:23 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	get_scale(t_conf *conf)
 {
-	if (conf->control->v->proj == 1)
+	if (conf->control->v->proj == 0)
 	{
 		conf->control->v->scale = fmin(
 			(double)(FDF_MAP_W)
@@ -25,9 +25,9 @@ static void	get_scale(t_conf *conf)
 
 static void	is_visible(t_conf *conf, t_vtx *v)
 {
-	if (conf->control->v->proj == 1)
+	v->visible = 0;
+	if (conf->control->v->proj == 0)
 	{
-		v->visible = 0;
 		if (fabs(v->y * (M_SQRT1_2)
 			* conf->control->v->scale * (double)conf->control->v->zoom)
 			> (double)(FDF_MAP_H) / 2.0 - (double)(FDF_MARGE))
@@ -43,7 +43,7 @@ static void	is_visible(t_conf *conf, t_vtx *v)
 static void	get_maps_vertex(t_conf *conf, t_vtx *vt, t_vtx *vs)
 {
 	ft_memcpy(vs, vt, sizeof(t_vtx));
-	if (conf->control->v->proj == 1)
+	if (conf->control->v->proj == 0)
 	{
 		vs->x = FDF_MARGE + (double)(FDF_MAP_W) / 2.0f
 			+ vt->x * conf->control->v->scale * (double)conf->control->v->zoom
