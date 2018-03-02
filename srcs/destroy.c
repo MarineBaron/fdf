@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 15:59:32 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/28 20:24:51 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/03/02 15:41:44 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,18 @@ void		destroy_img(t_conf *conf, t_img *img)
 
 void		destroy(t_conf *conf)
 {
-	destroy_control(conf);
-	destroy_map(conf);
-	destroy_img(conf, conf->i_btn);
-	destroy_img(conf, conf->i_value);
-	destroy_img(conf, conf->i_map);
-	mlx_destroy_window(conf->mlx, conf->win);
-	ft_memdel((void **)&conf->mlx);
-	ft_memdel((void **)&conf->matrix);
-	ft_memdel((void **)&conf->mouse);
+	if (conf)
+	{
+		if (conf->control)
+			destroy_control(conf);
+		if (conf->mapi)
+			destroy_map(conf);
+		destroy_img(conf, conf->i_btn);
+		destroy_img(conf, conf->i_value);
+		destroy_img(conf, conf->i_map);
+		mlx_destroy_window(conf->mlx, conf->win);
+		ft_memdel((void **)&conf->mlx);
+		ft_memdel((void **)&conf->matrix);
+		ft_memdel((void **)&conf->mouse);
+	}
 }

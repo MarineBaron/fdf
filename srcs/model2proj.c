@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/08 11:31:17 by mbaron            #+#    #+#             */
-/*   Updated: 2018/03/01 08:59:23 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/03/02 18:43:20 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@ static void	get_scale(t_conf *conf)
 				/ ((double)conf->mapi->h * (M_SQRT1_2) + (double)conf->mapi->w),
 				(double)(FDF_MAP_H) / (double)conf->mapi->h * (M_SQRT1_2));
 	}
+	else if (conf->control->v->proj == 1)
+	{
+		conf->control->v->scale = fmin(
+			(double)(FDF_MAP_W) / (double)conf->mapi->w,
+			(double)(FDF_MAP_H) / (double)conf->mapi->h);
+	}
 }
 
 static void	is_visible(t_conf *conf, t_vtx *v)
@@ -33,6 +39,17 @@ static void	is_visible(t_conf *conf, t_vtx *v)
 			> (double)(FDF_MAP_H) / 2.0 - (double)(FDF_MARGE))
 			return ;
 		if (fabs((v->x + v->y * (M_SQRT1_2))
+			* conf->control->v->scale * (double)conf->control->v->zoom)
+			> (double)(FDF_MAP_W) / 2.0 - (double)(FDF_MARGE))
+			return ;
+	}
+	else if (conf->control->v->proj == 1)
+	{
+		if (fabs(v->y 
+			* conf->control->v->scale * (double)conf->control->v->zoom)
+			> (double)(FDF_MAP_H) / 2.0 - (double)(FDF_MARGE))
+			return ;
+		if (fabs(v->x 
 			* conf->control->v->scale * (double)conf->control->v->zoom)
 			> (double)(FDF_MAP_W) / 2.0 - (double)(FDF_MARGE))
 			return ;
@@ -52,6 +69,17 @@ static void	get_maps_vertex(t_conf *conf, t_vtx *vt, t_vtx *vs)
 		vs->y = FDF_MARGE + (double)(FDF_MAP_H) / 2.0f
 			- vt->y * conf->control->v->scale
 				* (double)conf->control->v->zoom * (M_SQRT1_2)
+			- vt->z * (double)conf->control->v->z;
+	}
+	else if (conf->control->v->proj == 0)
+	{
+		vs->x = FDF_MARGE + (double)(FDF_MAP_W) / 2.0f
+			+ vt->x * conf->control->v->scale * (double)conf->control->v->zoom;
+			//+ vt->y * conf->control->v->scale
+			//* (double)conf->control->v->zoom * (M_SQRT1_2);
+		vs->y = FDF_MARGE + (double)(FDF_MAP_H) / 2.0f
+			- vt->y * conf->control->v->scale * (double)conf->control->v->zoom
+				//* (double)conf->control->v->zoom * (M_SQRT1_2)
 			- vt->z * (double)conf->control->v->z;
 	}
 }

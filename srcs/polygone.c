@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 15:27:46 by mbaron            #+#    #+#             */
-/*   Updated: 2018/03/01 19:01:46 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/03/02 18:17:56 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,18 @@ void			polygone_insert(t_conf *conf, int i, int j)
 			cur = cur->next;
 		}
 	}
-	else if (conf->control->v->rot > 125 && conf->control->v->rot < 180)
+	else if (conf->control->v->rot > 125 && conf->control->v->rot < 176)
 	{
-		while (cur && (poly->j > cur->j
-			|| (poly->j == cur->j && poly->i < cur->i)))
+		// while (cur && (poly->j > cur->j
+		// 	|| (poly->j == cur->j && poly->i < cur->i)))
+		while (cur && (poly->i < cur->i
+			|| (poly->i == cur->i && poly->j > cur->j)))
 		{
 			prec = cur;
 			cur = cur->next;
 		}
 	}
-	else if (conf->control->v->rot > 179 && conf->control->v->rot < 216)
+	else if (conf->control->v->rot > 175 && conf->control->v->rot < 216)
 	{
 		while (cur && (poly->i < cur->i
 			|| (poly->i == cur->i && poly->j > cur->j)))
@@ -96,7 +98,16 @@ void			polygone_insert(t_conf *conf, int i, int j)
 			cur = cur->next;
 		}
 	}
-	else if (conf->control->v->rot > 305 || conf->control->v->rot == 0)
+	else if (conf->control->v->rot > 305 && conf->control->v->rot < 336)
+	{
+		while (cur && (poly->i > cur->i
+			|| (poly->i == cur->i && poly->j < cur->j)))
+		{
+			prec = cur;
+			cur = cur->next;
+		}
+	}
+	else if (conf->control->v->rot > 335 || conf->control->v->rot == 0)
 	{
 		while (cur && (poly->j < cur->j
 			|| (poly->j == cur->j && poly->i > cur->i)))

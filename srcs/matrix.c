@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/06 16:19:14 by mbaron            #+#    #+#             */
-/*   Updated: 2018/02/28 20:09:47 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/03/02 09:39:48 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,20 @@
 double	**matrix_init(t_conf *conf, t_values *v)
 {
 	double		**matrix;
+	double		rot;
+	double		cosr;
+	double		sinr;
 
 	matrix = (double **)init_pointer(conf, 2 * sizeof(double *), "ErrM matrix");
 	matrix[0] = (double *)init_pointer(conf, 4 * sizeof(double), "ErrM matrix");
 	matrix[1] = (double *)init_pointer(conf, 4 * sizeof(double), "ErrM matrix");
-	matrix[0][0] = 1;
-	matrix[0][1] = 0;
-	matrix[0][2] = 0;
-	matrix[0][3] = 1;
+	rot = deg2rad(conf->control->v->rot);
+	cosr = cos(rot);
+	sinr = sin(rot);
+	matrix[0][0] = cosr;
+	matrix[0][1] = -sinr;
+	matrix[0][2] = -sinr;
+	matrix[0][3] = cosr;
 	matrix[1][0] = v->x;
 	matrix[1][1] = 0;
 	matrix[1][2] = 0;

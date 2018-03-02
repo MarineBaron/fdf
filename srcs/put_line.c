@@ -6,7 +6,7 @@
 /*   By: mbaron <mbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/12 18:45:30 by mbaron            #+#    #+#             */
-/*   Updated: 2018/03/01 19:07:15 by mbaron           ###   ########.fr       */
+/*   Updated: 2018/03/02 08:55:06 by mbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	put_pixel(t_conf *conf, int x, int y, t_vector *v)
 	unsigned int	c;
 	double			p;
 
-	if (x <= FDF_MAP_W && y <= FDF_MAP_H)
+	if (x < FDF_MAP_W && y < FDF_MAP_H)
 	{
 		if (v->o->x == v->d->x && v->o->y == v->d->y)
 			c = v->o->c;
